@@ -54,8 +54,8 @@ def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('youremail@gmail.com', 'your-password')
-    server.sendmail('youremail@gmail.com', to, content)
+    server.login('vidhin1208@gmail.com', '')
+    server.sendmail('vidhin1208@gmail.com', to, content)
     server.close()
 
 if __name__ == "__main__":
@@ -67,11 +67,16 @@ if __name__ == "__main__":
         # Logic for executing tasks based on query
         if 'wikipedia' in query:
             speak('Searching Wikipedia...')
-            query = query.replace("wikipedia", "")
-            results = wikipedia.summary(query, sentences=2)
-            speak("According to Wikipedia")
-            print(results)
-            speak(results)
+            try:
+                query = query.replace("wikipedia", "")
+                results = wikipedia.summary(query, sentences=2)
+                speak("According to Wikipedia")
+                print(results)
+                speak(results)
+
+            except Exception as e:
+                speak("Sorry sir Something goes to wrong")
+                print("Error found",e)
 
         elif 'open youtube' in query:
             webbrowser.open("youtube.com")
@@ -84,7 +89,7 @@ if __name__ == "__main__":
 
 
         elif 'play music' in query:
-            music_dir = 'D:\\Non Critical\\songs\\Favorite Songs2'
+            music_dir = 'D:\\Audio\\BOLLYWOOD.m4a' # music directry path 
             songs = os.listdir(music_dir)
             print(songs)    
             os.startfile(os.path.join(music_dir, songs[0]))
@@ -94,7 +99,8 @@ if __name__ == "__main__":
             speak(f"Sir, the time is {strTime}")
 
         elif 'open code' in query:
-            codePath = "C:\\Users\\Haris\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+            codePath = "C:\\Users\\vidhi\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe" 
+            #   vscode path
             os.startfile(codePath)
 
         elif 'email to harry' in query:
@@ -107,5 +113,6 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry my friend harry bhai. I am not able to send this email")    
-        elif 'quite'or"stop" in query:
-            exit()
+        # elif 'quite'or"stop" in query:
+        #     speak("okk, I will see you soon")
+        #     exit()
