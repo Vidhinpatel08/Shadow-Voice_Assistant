@@ -13,5 +13,3 @@ def sendEmail(to, content):
     server.sendmail(user_email, to, content)
     server.close()
 
-# sendEmail("vidhin203@gmail.com","hello jarvis sends mail.")
-# print("Done")
