@@ -4,7 +4,11 @@ import datetime
 import wikipedia #pip install wikipedia
 import webbrowser
 import os
-import smtplib
+import pywhatkit as kit # pip install pywhatkit 
+from requests import get
+import sys
+import emailmodule as em
+import musiclist
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -50,49 +54,47 @@ def takeCommand():
         return "None"
     return query
 
-def sendEmail(to, content):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login('vidhin1208@gmail.com', '')
-    server.sendmail('vidhin1208@gmail.com', to, content)
-    server.close()
-
 if __name__ == "__main__":
-    wishMe()
-    while True:
-    # if 1:
+    # wishMe()
+    # while True:
+    if 1:
         query = takeCommand().lower()
-
-        # Logic for executing tasks based on query
+        # Done 
         if 'wikipedia' in query:
             speak('Searching Wikipedia...')
-            try:
-                query = query.replace("wikipedia", "")
-                results = wikipedia.summary(query, sentences=2)
-                speak("According to Wikipedia")
-                print(results)
-                speak(results)
-
-            except Exception as e:
-                speak("Sorry sir Something goes to wrong")
-                print("Error found",e)
-
+            query = query.replace("wikipedia", "")
+            results = wikipedia.summary(query, sentences=2)
+            speak("According to Wikipedia")
+            print(results)
+            speak(results)
+        
+        # Done 
         elif 'open youtube' in query:
             webbrowser.open("youtube.com")
 
         elif 'open google' in query:
-            webbrowser.open("google.com")
+            speak('Sir, what should i search in Google')
+            cm = takeCommand().lower()
+            webbrowser.open(f"{cm}")
 
-        elif 'open stackoverflow' in query:
+        elif 'open stack overflow' in query:
             webbrowser.open("stackoverflow.com")   
 
+        elif "send message" in query:
+            # kit.sendwhatsmsg("your number","your message",time in hour,time in min) 
+            # give time 2 min before from current time 
+            current_hour = int(datetime.datetime.now().strftime("%H"))
+            current_minute = int(datetime.datetime.now().strftime("%M")) +1
+            kit.sendwhatmsg("+91 6353428687","Jarvis send a message",current_hour,current_minute)
+
+
+        elif "play songs on youtube" in query:
+            speak('Sir, what would you like to listen ?')
+            cm = takeCommand().lower()
+            kit.playonyt(cm) 
 
         elif 'play music' in query:
-            music_dir = 'D:\\Audio\\BOLLYWOOD.m4a' # music directry path 
-            songs = os.listdir(music_dir)
-            print(songs)    
-            os.startfile(os.path.join(music_dir, songs[0]))
+            musiclist.playmusic()
 
         elif 'the time' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
@@ -103,16 +105,36 @@ if __name__ == "__main__":
             #   vscode path
             os.startfile(codePath)
 
+        elif 'open notepad' in query:
+            codePath = "C:\\Windows\\System32\\notepad.exe" 
+            #   Notepad path
+            os.startfile(codePath)
+
+        elif 'open command prompt' in query:
+            # print("Enterd")
+            os.system("start cmd")
+
+        elif 'ip address' in query:
+            ip = get("https://api.ipify.org").text
+            print(f"your ip address is {ip}")
+            speak(f"your ip address is {ip}")
+
         elif 'email to harry' in query:
             try:
                 speak("What should I say?")
-                content = takeCommand()
-                to = "harryyourEmail@gmail.com"    
-                sendEmail(to, content)
+                content = takeCommand().lower()
+                to = "vidhin1208@gmail.com"   # To mail id 
+                em.sendEmail(to, content)
                 speak("Email has been sent!")
             except Exception as e:
                 print(e)
-                speak("Sorry my friend harry bhai. I am not able to send this email")    
-        # elif 'quite'or"stop" in query:
-        #     speak("okk, I will see you soon")
-        #     exit()
+                speak("Sorry my friend harry bhai. I am not able to send this email")  
+        
+        elif "no thanks" in query:
+            speak('thanks for using me sir, have a good day!')
+            sys.exit()
+        
+
+        # speak("sir, do you have any other work ?")
+
+
