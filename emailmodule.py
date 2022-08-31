@@ -5,6 +5,8 @@ with open('email.text') as f :
     user_email=f.readline()
     password=f.readline()
 
+
+
 def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()

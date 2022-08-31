@@ -5,6 +5,7 @@ import wikipedia #pip install wikipedia
 import webbrowser
 import os
 import pywhatkit as kit # pip install pywhatkit 
+import pyjokes  # pip install pyjokes 
 from requests import get
 import sys
 import emailmodule as em
@@ -39,7 +40,7 @@ def takeCommand():
 
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening...")
+        print("\nListening...")
         r.pause_threshold = 1
         audio = r.listen(source)
 
@@ -56,8 +57,8 @@ def takeCommand():
 
 if __name__ == "__main__":
     # wishMe()
-    # while True:
-    if 1:
+    while True:
+    # if 1:
         query = takeCommand().lower()
         # Done 
         if 'wikipedia' in query:
@@ -85,6 +86,7 @@ if __name__ == "__main__":
             # give time 2 min before from current time 
             current_hour = int(datetime.datetime.now().strftime("%H"))
             current_minute = int(datetime.datetime.now().strftime("%M")) +1
+
             kit.sendwhatmsg("+91 6353428687","Jarvis send a message",current_hour,current_minute)
 
 
@@ -110,6 +112,10 @@ if __name__ == "__main__":
             #   Notepad path
             os.startfile(codePath)
 
+        elif 'close notepad' in query:
+            speak("Okk sir, cloasing  notepad")
+            os.system('taskkill /f /im notepad.exe')
+
         elif 'open command prompt' in query:
             # print("Enterd")
             os.system("start cmd")
@@ -130,11 +136,25 @@ if __name__ == "__main__":
                 print(e)
                 speak("Sorry my friend harry bhai. I am not able to send this email")  
         
-        elif "no thanks" in query:
+        elif "bye" in query:
             speak('thanks for using me sir, have a good day!')
             sys.exit()
         
+        elif "tell me joke" in query :
+            joke = pyjokes.get_joke()
+            print(joke)
+            speak(joke)
 
-        # speak("sir, do you have any other work ?")
+
+        # elif "shutdown the system" in query:
+        #     os.system("shutdown /s /t 5")
+            
+        # elif "restart the system" in query:
+        #     os.system("shutdown /r /t 5")
+
+        # elif "sleep the system" in query:
+        #     os.system("rundll32.exe powerprof.dll,SetSuspendState 0,1,0")
+
+        speak("\nsir, do you have any other work ?")
 
 
