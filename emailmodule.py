@@ -1,4 +1,3 @@
-import email
 import smtplib
 
 with open('email.text') as f :
