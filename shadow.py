@@ -1,6 +1,7 @@
 import pyttsx3 #pip install pyttsx3
 import speech_recognition as sr #pip install speechRecognition
 import datetime
+import time
 import wikipedia #pip install wikipedia
 import webbrowser
 import os
@@ -9,7 +10,10 @@ import pyjokes  # pip install pyjokes
 from requests import get
 import sys
 import emailmodule as em
+import mynewsapi as news
 import musiclist
+import pyautogui # pip install pyautogui
+
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -33,7 +37,7 @@ def wishMe():
     else:
         speak("Good Evening!")  
 
-    speak("I am Jarvis Sir. Please tell me how may I help you")       
+    speak("I am shadow Sir. Please tell me how may I help you")       
 
 def takeCommand():
     #It takes microphone input from the user and returns string output
@@ -54,6 +58,7 @@ def takeCommand():
         print("Say that again please...")  
         return "None"
     return query
+
 
 if __name__ == "__main__":
     # wishMe()
@@ -87,7 +92,7 @@ if __name__ == "__main__":
             current_hour = int(datetime.datetime.now().strftime("%H"))
             current_minute = int(datetime.datetime.now().strftime("%M")) +1
 
-            kit.sendwhatmsg("+91 6353428687","Jarvis send a message",current_hour,current_minute)
+            kit.sendwhatmsg("+91 6353428687","Shadow send a message",current_hour,current_minute)
 
 
         elif "play songs on youtube" in query:
@@ -106,6 +111,10 @@ if __name__ == "__main__":
             codePath = "C:\\Users\\vidhi\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe" 
             #   vscode path
             os.startfile(codePath)
+
+        elif 'close vs code' in query:
+            speak("Okk sir, cloasing  notepad")
+            os.system('taskkill /f /im code.exe')
 
         elif 'open notepad' in query:
             codePath = "C:\\Windows\\System32\\notepad.exe" 
@@ -144,8 +153,23 @@ if __name__ == "__main__":
             joke = pyjokes.get_joke()
             print(joke)
             speak(joke)
+        
+        elif 'switch the window' in query:
+            pyautogui.keyDown("alt")  
+            time.sleep(1)          
+            pyautogui.press("tab")            
+            pyautogui.keyUp("alt")            
 
+        elif "tell me news" in query :
+            speak("please Wait sir, feteching the latest news.")
+            news.news()
 
+        
+        # elif "who are you" in query:
+            # speak("I am shadow Sir. Please tell me how may I help you")       
+
+        
+        # Dangerorus commands 
         # elif "shutdown the system" in query:
         #     os.system("shutdown /s /t 5")
             
