@@ -10,12 +10,12 @@ import pywhatkit as kit # pip install pywhatkit
 import pyjokes  # pip install pyjokes 
 from requests import get
 import sys
-import emailmodule as em
-import mynewsapi as news
-import musiclist
+import features.emailmodule as em
+import features.mynewsapi as news
+import features.musiclist as musiclist
 import pyautogui # pip install pyautogui
-import feature as f
-import alarmtime as alarm
+import features.feature as f
+import features.alarmtime as alarm
 
 from PyQt5 import QtWidgets,QtCore, QtGui
 from PyQt5.QtCore import QTimer, QTime , QDate, Qt 
@@ -236,7 +236,7 @@ class MainThread(QThread):
                 pyautogui.press("tab")            
                 pyautogui.keyUp("alt")            
 
-            elif "tell me news" in self.query :
+            elif "tell me news" in self.query or "tell me some news" in self.query or "news" in self.query :
                 speak("please Wait sir, feteching the latest news.")
                 news.news()
 
