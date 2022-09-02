@@ -15,6 +15,7 @@ import mynewsapi as news
 import musiclist
 import pyautogui # pip install pyautogui
 import feature as f
+import alarmtime as alarm
 
 from PyQt5 import QtWidgets,QtCore, QtGui
 from PyQt5.QtCore import QTimer, QTime , QDate, Qt 
@@ -99,6 +100,9 @@ class MainThread(QThread):
             elif 'open youtube' in self.query:
                 webbrowser.open("youtube.com")
 
+            elif "open facebook" in self.query:
+                webbrowser.open("www.facebook.com")
+
             elif 'open google' in self.query:
                 speak('Sir, what should i search in Google')
                 cm = self.takeCommand()
@@ -145,7 +149,7 @@ class MainThread(QThread):
             elif 'joke' in self.query:
                 speak(pyjokes.get_joke())
 
-            elif 'time' in self.query:
+            elif 'what is time' in self.query:
                 strTime = datetime.datetime.now().strftime("%H:%M:%S")    
                 speak(f"Sir, the time is {strTime}")
   
@@ -196,8 +200,31 @@ class MainThread(QThread):
                 except Exception as e:
                     # print(e)
                     speak("Sorry my sir  I am not able to send this email")  
-            
-            
+
+
+            #############################################################
+            #to set an alarm
+            elif "set alarm" in self.query or "set an alarm" in self.query or "set the alarm" in self.query or "alarm" in self.query:
+                speak("Sir now can excess the terminal to set alarm")
+                alarm.alaramplay()
+                speak("Okk sir, your alarm command completed now")
+
+            elif 'timer' in self.query or 'stopwatch' in self.query:
+                speak("For how many minutes?")
+                timing = self.takeCommand()
+                timing =timing.replace('minutes', '')
+                timing = timing.replace('minute', '')
+                timing = timing.replace('for', '')
+                timing = float(timing)
+                timing = timing * 60
+                speak(f'I will remind you in {timing} seconds')
+
+                time.sleep(timing)
+                speak('Your time has been finished sir')
+
+            elif 'hi' in self.query or 'hello' in self.query:
+                speak('Hello sir, how may I help you?')
+
             elif "tell me joke" in self.query :
                 joke = pyjokes.get_joke()
                 print(joke)
@@ -216,9 +243,9 @@ class MainThread(QThread):
             elif "who are you" in self.query or  "your intro" in self.query:
                 speak("I am shadow Sir. I'm Voice Assistent of Vidhin")       
 
-            elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
-                speak('thanks for using me sir, have a good day!')
-                sys.exit()
+            # elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
+            #     speak('thanks for using me sir, have a good day!')
+            #     sys.exit()
             
             # Dangerorus commands 
             elif "shutdown the system" in self.query:
