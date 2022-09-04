@@ -90,10 +90,12 @@ def authentication():
             if (accuracy < 100):
                 id = names[id]
                 accuracy = "  {0}%".format(round(100 - accuracy))
-                
                 # Face Recognition
                 # pyautogui.press("esc")
                 speak("verification successful")
+                cam.release()
+                cv2.destroyAllWindows()
+                time.sleep(0.5)
                 print("Thanks for using this program, have a good day.")
                 cam.release()
                 cv2.destroyAllWindows()
@@ -358,6 +360,9 @@ class Main(QMainWindow):
         self.ui.movie.start()
         self.ui.movie = QtGui.QMovie("../images/Initial.gif")      # path of (Labal-2)
         self.ui.label_2.setMovie(self.ui.movie)
+        self.ui.movie.start()
+        self.ui.movie = QtGui.QMovie("../images/shadow.gif")      # path of (Labal-3)
+        self.ui.label_3.setMovie(self.ui.movie)
         self.ui.movie.start()
         timer= QTimer(self)
         timer.timeout.connect(self.showTime)

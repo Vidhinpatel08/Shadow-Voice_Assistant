@@ -20,7 +20,7 @@ class Ui_ShadowUI(object):
         self.centralwidget = QtWidgets.QWidget(ShadowUI)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(0, 10, 1171, 751))
+        self.label.setGeometry(QtCore.QRect(0, 0, 1171, 761))
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap("../images/Main.gif"))
         self.label.setScaledContents(True)
@@ -50,7 +50,7 @@ class Ui_ShadowUI(object):
 "border-color: rgb(0, 0, 0);")
         self.pushButton_2.setObjectName("pushButton_2")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(10, -20, 441, 171))
+        self.label_2.setGeometry(QtCore.QRect(10, 10, 441, 171))
         self.label_2.setText("")
         self.label_2.setPixmap(QtGui.QPixmap("../images/Initial.gif"))
         self.label_2.setScaledContents(True)
@@ -76,7 +76,7 @@ class Ui_ShadowUI(object):
 "font-size:26px;\n")
         self.textBrowser_2.setObjectName("textBrowser_2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(180, 520, 81, 31))
+        self.label_3.setGeometry(QtCore.QRect(90, 440, 271, 201))
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
@@ -85,6 +85,9 @@ class Ui_ShadowUI(object):
         self.label_3.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: rgb(0, 0, 0);\n"
 "text-aline:center;")
+        self.label_3.setText("")
+        self.label_3.setPixmap(QtGui.QPixmap("../images/shadow.gif"))
+        self.label_3.setScaledContents(True)
         self.label_3.setObjectName("label_3")
         ShadowUI.setCentralWidget(self.centralwidget)
 
@@ -96,7 +99,6 @@ class Ui_ShadowUI(object):
         ShadowUI.setWindowTitle(_translate("ShadowUI", "MainWindow"))
         self.pushButton.setText(_translate("ShadowUI", "Run"))
         self.pushButton_2.setText(_translate("ShadowUI", "Exit"))
-        self.label_3.setText(_translate("ShadowUI", "    Shadow"))
 
 
 if __name__ == "__main__":
