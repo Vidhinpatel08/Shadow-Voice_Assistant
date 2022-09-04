@@ -1,6 +1,5 @@
 # Face-Recognition in Python
-Face Recognition tutorial refference for https://youtu.be/BG3mpdzk0Rw
-
+This a very impressive Face-recognition project. by following this we can implement a security system as well as a attendance system for college/schools and offices.
 
 # Prerequisites
 [ Python 3.6.4 ]
