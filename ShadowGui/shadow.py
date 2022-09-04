@@ -1,4 +1,4 @@
-from socket import timeout
+# from socket import timeout
 import pyttsx3 #pip install pyttsx3
 import speech_recognition as sr #pip install speechRecognition
 import datetime
@@ -26,6 +26,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 from shadowUi import Ui_ShadowUI
 
+# Face Recognition
+import cv2
+import numpy as np
+import os
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -37,7 +41,83 @@ def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
+# Face Recognition
+def authentication():
+    recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
+    recognizer.read('./facerecognition/trainer/trainer.yml')   #load trained model
+    cascadePath = "./facerecognition/haarcascade_frontalface_default.xml"
+    faceCascade = cv2.CascadeClassifier(cascadePath) #initializing haar cascade for object detection approach
 
+    font = cv2.FONT_HERSHEY_SIMPLEX #denotes the font type
+
+
+    id =2 #number of persons you want to Recognize
+
+
+    names = ['','vidhin']  #names, leave first empty bcz counter starts from 0
+
+
+    cam = cv2.VideoCapture(0, cv2.CAP_DSHOW) #cv2.CAP_DSHOW to remove warning
+    cam.set(3, 640) # set video FrameWidht
+    cam.set(4, 480) # set video FrameHeight
+
+    # Define min window size to be recognized as a face
+    minW = 0.1*cam.get(3)
+    minH = 0.1*cam.get(4)
+
+    # flag = True
+
+    while True:
+
+        ret, img =cam.read() #read the frames using the above created object
+
+        converted_image = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)  #The function converts an input image from one color space to another
+
+        faces = faceCascade.detectMultiScale( 
+            converted_image,
+            scaleFactor = 1.2,
+            minNeighbors = 5,
+            minSize = (int(minW), int(minH)),
+        )
+
+        for(x,y,w,h) in faces:
+
+            cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2) #used to draw a rectangle on any image
+
+            id, accuracy = recognizer.predict(converted_image[y:y+h,x:x+w]) #to predict on every single image
+
+            # Check if accuracy is less them 100 ==> "0" is perfect match 
+            if (accuracy < 100):
+                id = names[id]
+                accuracy = "  {0}%".format(round(100 - accuracy))
+                
+                # Face Recognition
+                # pyautogui.press("esc")
+                speak("verification successful")
+                print("Thanks for using this program, have a good day.")
+                cam.release()
+                cv2.destroyAllWindows()
+                return
+
+
+            else:
+                id = "unknown"
+                accuracy = "  {0}%".format(round(100 - accuracy))
+
+            
+            cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
+            cv2.putText(img, str(accuracy), (x+5,y+h-5), font, 1, (255,255,0), 1)  
+        
+        cv2.imshow('camera',img) 
+
+        k = cv2.waitKey(10) & 0xff # Press 'ESC' for exiting video
+        if k == 27:
+            break
+
+    # Do a bit of cleanup
+    print("Thanks for using this program, have a good day.")
+    cam.release()
+    cv2.destroyAllWindows()
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -83,6 +163,9 @@ class MainThread(QThread):
 
 
     def TaskExecution(self):
+        # pyautogui.press("esc")
+        # speak("verification successful")
+        speak('Welcome back Vidhin sir')
         wishMe()
         while True:
         # if 1:
@@ -143,13 +226,13 @@ class MainThread(QThread):
             elif 'read' in self.query:
                 f.text2speech()
 
-            elif 'open' in self.query:
-                os.system('explorer c://{}'.format(self.query.replace('open','')))
+            # elif 'open' in self.query:
+            #     os.system(f'explorer c://{}'.format(self.query.replace('open','')))
 
             elif 'joke' in self.query:
                 speak(pyjokes.get_joke())
 
-            elif 'what is time' in self.query:
+            elif 'what is time' in self.query or 'time'in self.query:
                 strTime = datetime.datetime.now().strftime("%H:%M:%S")    
                 speak(f"Sir, the time is {strTime}")
   
@@ -222,7 +305,7 @@ class MainThread(QThread):
                 time.sleep(timing)
                 speak('Your time has been finished sir')
 
-            elif 'hi' in self.query or 'hello' in self.query:
+            elif 'hi' in self.query or 'hello' in self.query or "hai" in self.query:
                 speak('Hello sir, how may I help you?')
 
             elif "tell me joke" in self.query :
@@ -257,7 +340,7 @@ class MainThread(QThread):
             elif "sleep the system" in self.query:
                 os.system("rundll32.exe powerprof.dll,SetSuspendState 0,1,0")
 
-            speak("\nsir, I'm Ready to Next Command ?")
+            # speak("\nsir, I'm Ready to Next Command ?")
 
 startExecution = MainThread()
 
@@ -290,9 +373,9 @@ class Main(QMainWindow):
         self.ui.textBrowser_2.setText(label_time)
 
 
-
-
-app = QApplication(sys.argv)
-shadow = Main()
-shadow.show()
-exit(app.exec_())
+if __name__=="__main__":
+    authentication() # Face Recognition
+    app = QApplication(sys.argv)
+    shadow = Main()
+    shadow.show()
+    exit(app.exec_())

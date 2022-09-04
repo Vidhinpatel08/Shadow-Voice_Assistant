@@ -3,10 +3,10 @@ import numpy as np
 from PIL import Image #pillow package
 import os
 
-path = './FaceRecognition/samples' # Path for samples already taken
+path = './facerecognition/samples' # Path for samples already taken
 
 recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
-detector = cv2.CascadeClassifier("./FaceRecognition/haarcascade_frontalface_default.xml")
+detector = cv2.CascadeClassifier("./facerecognition/haarcascade_frontalface_default.xml")
 #Haar Cascade classifier is an effective object detection approach
 
 
@@ -35,6 +35,6 @@ print ("Training faces. It will take a few seconds. Wait ...")
 faces,ids = Images_And_Labels(path)
 recognizer.train(faces, np.array(ids))
 
-recognizer.write('./FaceRecognition/trainer/trainer.yml')  # Save the trained model as trainer.yml
+recognizer.write('./facerecognition/trainer/trainer.yml')  # Save the trained model as trainer.yml
 
 print("Model trained, Now we can recognize your face.")

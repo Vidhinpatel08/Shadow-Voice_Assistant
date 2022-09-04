@@ -26,7 +26,7 @@ def covid():
 
 def screenshot():
     name_img = tt.time()
-    name_img = f'D:\\{name_img}.png'
+    name_img = f'D:\\screenshots\\{name_img}.png'
     img = pyautogui.screenshot(name_img)
     img.show()
 
