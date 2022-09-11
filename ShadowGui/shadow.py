@@ -198,7 +198,6 @@ class MainThread(QThread):
 
             elif "send message" in self.query:
                 # kit.sendwhatsmsg("your number","your message",time in hour,time in min) 
-                # give time 2 min before from current time 
                 current_hour = int(datetime.datetime.now().strftime("%H"))
                 current_minute = int(datetime.datetime.now().strftime("%M")) +1
 
@@ -234,7 +233,7 @@ class MainThread(QThread):
             elif 'joke' in self.query:
                 speak(pyjokes.get_joke())
 
-            elif 'what is time' in self.query or 'time'in self.query:
+            elif 'what is time' in self.query or 'current time'in self.query:
                 strTime = datetime.datetime.now().strftime("%H:%M:%S")    
                 speak(f"Sir, the time is {strTime}")
   
@@ -272,7 +271,7 @@ class MainThread(QThread):
                 print(f"your ip address is {ip}")
                 speak(f"your ip address is {ip}")
 
-            elif 'email' in self.query:
+            elif 'email to' in self.query or 'send email' in self.query:
                 try:
                     speak('what is your subject ?')
                     subject = self.takeCommand().lower()
@@ -294,7 +293,7 @@ class MainThread(QThread):
                 alarm.alaramplay()
                 speak("Okk sir, your alarm command completed now")
 
-            elif 'timer' in self.query or 'stopwatch' in self.query:
+            elif 'set timer' in self.query or 'stopwatch' in self.query:
                 speak("For how many minutes?")
                 timing = self.takeCommand()
                 timing =timing.replace('minutes', '')
