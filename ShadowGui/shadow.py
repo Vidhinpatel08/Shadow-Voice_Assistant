@@ -390,5 +390,5 @@ if __name__=="__main__":
     # shadow = Main()
     # shadow.show()
     # exit(app.exec_())
-    startex('vidhin') # here you name
+    # startex('vidhin') # here you name
     pass 
