@@ -1,3 +1,5 @@
+import sys
+import Model_Trainer
 import cv2
 
 cam = cv2.VideoCapture(0, cv2.CAP_DSHOW) #create a video capture object which is helpful to capture videos through webcam
@@ -8,8 +10,42 @@ cam.set(4, 480) # set video FrameHeight
 detector = cv2.CascadeClassifier('./facerecognition/haarcascade_frontalface_default.xml')
 #Haar Cascade classifier is an effective object detection approach
 
-face_id = input("Enter a Numeric user ID  here:  ")
+############### for Registtion Take id & name by user ####################
+
+
+face_id = input("Enter a Numeric user ID  here:  ") 
 #Use integer ID for every new face (0,1,2,3,4,5,6,7,8,9........)
+
+name = input("Enter a Name of user  here:  ")
+#Use integer ID for every new face (0,1,2,3,4,5,6,7,8,9........)
+
+# namelist file management 
+
+f = open('./facerecognition/namelist.txt')
+value = f.read(1)
+f.close()
+if value  == '':
+    with open('./facerecognition/namelist.txt','a') as f :
+        nameadd = name +"-"+ face_id+'\n'
+        f.write(nameadd)
+else:
+    with open('./facerecognition/namelist.txt') as f :
+        namelist,nameid = [],[]
+        for i in f:
+                namelist.append(i.split('\n')[0].split('-')[0])
+                nameid.append(i.split('\n')[0].split('-')[1])
+        # print(namelist)
+        # print(nameid)
+        if name in namelist:
+            print('You Name Already In Ourdata. Try again With Other name')
+            sys.exit()
+        elif face_id in nameid:
+            print('You FAce ID Number Already In Ourdata. Try again With Other ID')
+            sys.exit()
+        else:
+            with open('./facerecognition/namelist.txt','a') as f :
+                nameadd = name +"-"+ face_id+'\n'
+                f.write(nameadd)
 
 print("Taking samples, look at camera ....... ")
 count = 0 # Initializing sampling face count
@@ -26,7 +62,7 @@ while True:
         count += 1
 
         
-        cv2.imwrite("./facerecognition/samples/face." + str(face_id) + '.' + str(count) + ".jpg", converted_image[y:y+h,x:x+w])
+        cv2.imwrite("./facerecognition/samples/" + str(count) + '.' +str(face_id)+'.'+ str(name) + ".jpg", converted_image[y:y+h,x:x+w])
         # To capture & Save images into the datasets folder
 
         cv2.imshow('image', img) #Used to display an image in a window
@@ -34,9 +70,11 @@ while True:
     k = cv2.waitKey(100) & 0xff # Waits for a pressed key
     if k == 27: # Press 'ESC' to stop
         break
-    elif count >= 10: # Take 50 sample (More sample --> More accuracy)
+    elif count >= 50: # Take 50 sample (More sample --> More accuracy)
          break
 
 print("Samples taken now closing the program....")
 cam.release()
 cv2.destroyAllWindows()
+
+Model_Trainer.starttrainer(name)

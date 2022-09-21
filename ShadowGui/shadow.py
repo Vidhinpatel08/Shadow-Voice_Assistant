@@ -167,7 +167,6 @@ class MainThread(QThread):
     def TaskExecution(self):
         # pyautogui.press("esc")
         # speak("verification successful")
-        speak('Welcome back Vidhin sir')
         wishMe()
         while True:
         # if 1:
@@ -377,9 +376,19 @@ class Main(QMainWindow):
         self.ui.textBrowser_2.setText(label_time)
 
 
-if __name__=="__main__":
-    authentication() # Face Recognition
+def startex(name):
+    speak(f'Welcome back {name} sir')
     app = QApplication(sys.argv)
+    speak(f'{name} sir, Please click on RUN button to start me & click On EXIT to Stop me.')
     shadow = Main()
     shadow.show()
     exit(app.exec_())
+
+if __name__=="__main__":
+    # authentication() # Face Recognition
+    # app = QApplication(sys.argv)
+    # shadow = Main()
+    # shadow.show()
+    # exit(app.exec_())
+    startex('vidhin') # here you name
+    pass 
