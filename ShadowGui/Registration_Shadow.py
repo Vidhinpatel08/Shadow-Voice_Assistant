@@ -79,9 +79,10 @@ print("Samples taken now closing the program....\n\n")
 cam.release()
 cv2.destroyAllWindows()
 
+
+# tranier Model 
 Model_Trainer.starttrainer(name)
-<<<<<<<< HEAD:ShadowGui/Registration_Shadow.py
-# Model_Trainer.starttrainer()
+
+# login shadow
 loginShadow.namedetect()
-========
->>>>>>>> 70a2a9885cd4ff74aa4bd34b3cb144b1444d4054:ShadowGui/FaceRecognition/Registration_Shadow .py
+
