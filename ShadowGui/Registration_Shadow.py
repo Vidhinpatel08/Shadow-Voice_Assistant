@@ -1,5 +1,7 @@
 import sys
-import Model_Trainer
+# import Model_Trainer
+from FaceRecognition import Model_Trainer
+import loginShadow
 import cv2
 
 cam = cv2.VideoCapture(0, cv2.CAP_DSHOW) #create a video capture object which is helpful to capture videos through webcam
@@ -47,7 +49,7 @@ else:
                 nameadd = name +"-"+ face_id+'\n'
                 f.write(nameadd)
 
-print("Taking samples, look at camera ....... ")
+print("\nTaking samples, look at camera ....... ")
 count = 0 # Initializing sampling face count
 
 while True:
@@ -73,8 +75,10 @@ while True:
     elif count >= 50: # Take 50 sample (More sample --> More accuracy)
          break
 
-print("Samples taken now closing the program....")
+print("Samples taken now closing the program....\n\n")
 cam.release()
 cv2.destroyAllWindows()
 
 Model_Trainer.starttrainer(name)
+# Model_Trainer.starttrainer()
+loginShadow.namedetect()

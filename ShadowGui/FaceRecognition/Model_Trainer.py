@@ -39,4 +39,4 @@ def starttrainer(name):
 
     recognizer.write(f'./facerecognition/trainer/{name}_trainer.yml')  # Save the trained model as trainer.yml
 
-    print("Model trained, Now we can recognize your face.")
+    print("Model trained, Now we can recognize your face.\n\n")

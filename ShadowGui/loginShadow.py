@@ -62,13 +62,13 @@ def main_app(name,face_id):
                                     
                                     # save the image  
                                     Image1copy.save(".\\facerecognition\\end.png") 
+                                    shadow.speak("verification successful")
                                     frame = cv2.imread(".\\facerecognition\\end.png", 1)
 
-                                    cv2.imshow("Result",frame)
+                                    cv2.imshow(f"Valid User {name}",frame)
                                     cv2.waitKey(5000)
                                     cap.release()
                                     cv2.destroyAllWindows()
-                                    shadow.speak("verification successful")
 
                                     shadow.startex(name)
 
@@ -94,7 +94,7 @@ def main_app(name,face_id):
         cap.release()
         cv2.destroyAllWindows()
 
-if __name__ =="__main__":
+def namedetect():
     username = input('Enter you name :') # for login button take name on interface
     with open('./facerecognition/namelist.txt') as f :
         namelist,nameid = [],[]
@@ -109,7 +109,11 @@ if __name__ =="__main__":
         face_id = nameid[index]
         # print('faceid :',face_id)
     else:
-        print('You Name Not Matching In Ourdata. Try again With Correct Name')
+        print('You Name Not Matching In Ourdata. Try again With Correct Name\n')
         sys.exit()
-
     main_app(username,face_id)
+
+
+if __name__ =="__main__":
+    namedetect()
+    # main_app(username,face_id)
