@@ -72,7 +72,7 @@ while True:
     k = cv2.waitKey(100) & 0xff # Waits for a pressed key
     if k == 27: # Press 'ESC' to stop
         break
-    elif count >= 50: # Take 50 sample (More sample --> More accuracy)
+    elif count >= 100 : # Take 100 sample (More sample --> More accuracy)
          break
 
 print("Samples taken now closing the program....\n\n")
@@ -82,6 +82,8 @@ cv2.destroyAllWindows()
 
 # tranier Model 
 Model_Trainer.starttrainer(name)
+
+print('For login Continue....')
 
 # login shadow
 loginShadow.namedetect()
