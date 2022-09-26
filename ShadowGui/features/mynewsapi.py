@@ -10,7 +10,9 @@ def speak(str):
 
 def news():
     speak("News for today.. Lets begin")
-    url = "https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=c16715a456f64335a3a7c582cbe2a202"
+    # url = "https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=c16715a456f64335a3a7c582cbe2a202"
+    url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=c16715a456f64335a3a7c582cbe2a202"
+
     news = requests.get(url).text
     news_dict = json.loads(news)
     arts = news_dict['articles']
@@ -34,5 +36,5 @@ def news():
 #         speak((f'{x}{y["description"]}'))
 
 #     speak("that's it for now i'll update you in sometime")
-# news()
+news()
 
