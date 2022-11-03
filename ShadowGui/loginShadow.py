@@ -4,12 +4,12 @@ from time import sleep
 from PIL import Image 
 import shadow
 
-def main_app(name,face_id):
+def main_app(name,face_id,emaild):
         try:
             cascadePath = r"ShadowGui\FaceRecognition\haarcascade_frontalface_default.xml"
             face_cascade = cv2.CascadeClassifier(cascadePath)
             recognizer = cv2.face.LBPHFaceRecognizer_create()
-            recognizer.read(f'ShadowGui\FaceRecognition/trainer/{name}_trainer.yml')
+            recognizer.read(f'ShadowGui/FaceRecognition/trainer/{name}_{emaild}_trainer.yml')
             cap = cv2.VideoCapture(0)
             pred = 0
             i = 0
@@ -40,21 +40,21 @@ def main_app(name,face_id):
                             frame = cv2.putText(frame, text, (x, y-4), font, 1, (0, 255, 0), 1, cv2.LINE_AA)
 
                             ########################################################
-                            
+                            # ShadowGui\FaceRecognition\samples\{str(count)}.{str(face_id)}.{str(emaild)}.{str(emaild)}.jpg
                             if pred > 0 : 
                                 i+=1
                                 # print('h',i)
                                 if i >5 :
                                     dim =(124,124)
-                                    img = cv2.imread(f"ShadowGui\FaceRecognition\samples\\{pred}.{face_id}.{name}.jpg", cv2.IMREAD_UNCHANGED)
+                                    img = cv2.imread(f"ShadowGui\FaceRecognition\samples\\{pred}.{face_id}.{emaild}.{name}.jpg", cv2.IMREAD_UNCHANGED)
                                     resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-                                    cv2.imwrite(f"ShadowGui\FaceRecognition\samples\\50.{face_id}.{name}.jpg", resized)
+                                    cv2.imwrite(f"ShadowGui\FaceRecognition\samples\\50.{face_id}.{emaild}.{name}.jpg", resized)
                                     Image1 = Image.open(r"ShadowGui\FaceRecognition\2.png") 
                                     
                                     # make a copy the image so that the  
                                     # original image does not get affected 
                                     Image1copy = Image1.copy() 
-                                    Image2 = Image.open(f"ShadowGui\FaceRecognition\samples\\25.{face_id}.{name}.jpg") 
+                                    Image2 = Image.open(f"ShadowGui\FaceRecognition\samples\\25.{face_id}.{emaild}.{name}.jpg") 
                                     Image2copy = Image2.copy() 
                                     
                                     # paste image giving dimensions 
@@ -69,13 +69,9 @@ def main_app(name,face_id):
                                     cv2.waitKey(5000)
                                     cap.release()
                                     cv2.destroyAllWindows()
-
-                                    shadow.startex(name)
-
-
-                            
-
-
+                                    return
+                                    # shadow.startex(name.capitalize())
+                                                         
                 else:   
                             pred += -1
                             text = "UnknownFace"
@@ -95,25 +91,25 @@ def main_app(name,face_id):
         cv2.destroyAllWindows()
 
 def namedetect():
-    username = input('Enter your name :') # for login button take name on interface
-    with open(r"ShadowGui\FaceRecognition\namelist.txt") as f :
-        namelist,nameid = [],[]
-        for i in f:
-            namelist.append(i.split('\n')[0].split('-')[0])
-            nameid.append(i.split('\n')[0].split('-')[1])
-    # print(namelist)
-    # print(nameid)
-    if username in namelist:
-        index = namelist.index(username)
-        # print('index',index)
-        face_id = nameid[index]
-        # print('faceid :',face_id)
-    else:
-        print('You Name Not Matching In Ourdata. Try again With Correct Name\n')
-        sys.exit()
-    main_app(username,face_id)
+    # userEmail = input('Enter your Email :').lower() # for login button take name on interface
+    # namelist,nameid,nameEmail = [],[],[]
+    # with open(r"ShadowGui\FaceRecognition\namelist.txt") as f :
+    #     for i in f:
+    #         namelist.append(i.split('\n')[0].split('-')[0])
+    #         nameid.append(i.split('\n')[0].split('-')[1])
+    #         nameEmail.append(i.split('\n')[0].split('-')[2])
+    # if userEmail in nameEmail:
+    #     index = nameEmail.index(userEmail)
+    #     face_id = nameid[index]
+    #     username = namelist[index]
+    # else:
+    #     print('You Email Not Matching In Ourdata. Try again With Correct Email\n')
+    #     sys.exit()
+    # main_app(username,face_id,userEmail)
+    pass
 
 
 if __name__ =="__main__":
-    namedetect()
+    # namedetect()
     # main_app(username,face_id)
+    pass

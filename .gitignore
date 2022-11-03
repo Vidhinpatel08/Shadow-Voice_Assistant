@@ -8,3 +8,5 @@ ShadowGui/features/screenshots/
 ShadowGui/FaceRecognition/end.png
 ShadowGui/features/__pycache__
 __pycache__
+ShadowGui/FaceRecognition/end.png
+ShadowGui/FaceRecognition/__pycache__/Model_Trainer.cpython-310.pyc

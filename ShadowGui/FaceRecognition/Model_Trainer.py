@@ -4,7 +4,7 @@ from PIL import Image #pillow package
 import os
 
 
-def starttrainer(name):
+def starttrainer(name,emaild):
     path = r'ShadowGui\FaceRecognition\samples' # Path for samples already taken
 
     recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
@@ -37,7 +37,7 @@ def starttrainer(name):
     faces,ids = Images_And_Labels(path)
     recognizer.train(faces, np.array(ids))
 
-    recognizer.write(f'ShadowGui/FaceRecognition/trainer/{name}_trainer.yml')  # Save the trained model as trainer.yml
+    recognizer.write(f'ShadowGui/FaceRecognition/trainer/{name}_{emaild}_trainer.yml')  # Save the trained model as trainer.yml
 
     print("Model trained, Now we can recognize your face.\n\n")
 

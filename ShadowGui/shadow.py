@@ -31,15 +31,21 @@ import cv2
 import numpy as np
 import os
 
-engine = pyttsx3.init('sapi5')
-voices = engine.getProperty('voices')
-# print(voices[1].id)
-engine.setProperty('voice', voices[0].id)
+# engine = pyttsx3.init('sapi5')
+# voices = engine.getProperty('voices')
+# # print(voices[1].id)
+# engine.setProperty('voice', voices[0].id)
 
 
-def speak(audio):
-    engine.say(audio)
-    engine.runAndWait()
+# def speak(audio):
+#     engine.say(audio)
+#     engine.runAndWait()
+def speak(str):
+    from win32com.client import Dispatch
+    speak = Dispatch("SAPI.SpVoice")
+    speak.Speak(str)
+
+
 
 # Face Recognition
 # def authentication():
@@ -167,7 +173,7 @@ class MainThread(QThread):
     def TaskExecution(self):
         # pyautogui.press("esc")
         # speak("verification successful")
-        wishMe()
+        # wishMe()
         while True:
         # if 1:
             self.query = self.takeCommand()
@@ -326,10 +332,10 @@ class MainThread(QThread):
             elif "who are you" in self.query or  "your intro" in self.query:
                 speak("I am shadow Sir. I'm Voice Assistent of Vidhin")       
 
-            elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
-                speak('thanks for using me sir, have a good day!')
-                sys.exit()
-            
+            # elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
+            #     speak('thanks for using me sir, have a good day!')
+            #     QtWidgets.QStackedWidget().close   
+
             # Dangerorus commands 
             elif "shutdown the system" in self.query:
                 os.system("shutdown /s /t 5")
@@ -376,13 +382,13 @@ class Main(QMainWindow):
         self.ui.textBrowser_2.setText(label_time)
 
 
-def startex(name):
-    speak(f'Welcome back {name} sir')
-    app = QApplication(sys.argv)
-    speak(f'{name} sir, Please click on RUN button to start me & click On EXIT to Stop me.')
-    shadow = Main()
-    shadow.show()
-    exit(app.exec_())
+# def startex(name):
+#     speak(f'Welcome back {name} sir')
+    # app = QApplication(sys.argv)
+#     speak(f'{name} sir, Please click on RUN button to start me & click On EXIT to Stop me.')
+    # shadow = Main()
+    # shadow.show()
+    # exit(app.exec_())
 
 if __name__=="__main__":
     # authentication() # Face Recognition
