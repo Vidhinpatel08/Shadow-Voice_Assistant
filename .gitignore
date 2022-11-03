@@ -3,6 +3,7 @@ ShadowGui/FaceRecognition/trainer/
 ShadowGui/__pycache__
 ShadowGui/shadowUI.ui
 ShadowGui/features/email.txt
-ShadowGui\features\youtube_alarm_videos.txt
-ShadowGui\features\screenshots\
-ShadowGui\FaceRecognition\end.png
+ShadowGui/features/youtube_alarm_videos.txt
+ShadowGui/features/screenshots/
+ShadowGui/FaceRecognition/end.png
+ShadowGui/features/__pycache__
