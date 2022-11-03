@@ -5,10 +5,10 @@ import os
 
 
 def starttrainer(name):
-    path = './facerecognition/samples' # Path for samples already taken
+    path = r'ShadowGui\FaceRecognition\samples' # Path for samples already taken
 
     recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
-    detector = cv2.CascadeClassifier("./facerecognition/haarcascade_frontalface_default.xml")
+    detector = cv2.CascadeClassifier(r"ShadowGui\FaceRecognition\haarcascade_frontalface_default.xml")
     #Haar Cascade classifier is an effective object detection approach
 
 
@@ -37,7 +37,7 @@ def starttrainer(name):
     faces,ids = Images_And_Labels(path)
     recognizer.train(faces, np.array(ids))
 
-    recognizer.write(f'./facerecognition/trainer/{name}_trainer.yml')  # Save the trained model as trainer.yml
+    recognizer.write(f'ShadowGui/FaceRecognition/trainer/{name}_trainer.yml')  # Save the trained model as trainer.yml
 
     print("Model trained, Now we can recognize your face.\n\n")
 

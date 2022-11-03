@@ -6,10 +6,10 @@ import shadow
 
 def main_app(name,face_id):
         try:
-            cascadePath = "./facerecognition/haarcascade_frontalface_default.xml"
+            cascadePath = r"ShadowGui\FaceRecognition\haarcascade_frontalface_default.xml"
             face_cascade = cv2.CascadeClassifier(cascadePath)
             recognizer = cv2.face.LBPHFaceRecognizer_create()
-            recognizer.read(f'./facerecognition/trainer/{name}_trainer.yml')
+            recognizer.read(f'ShadowGui\FaceRecognition/trainer/{name}_trainer.yml')
             cap = cv2.VideoCapture(0)
             pred = 0
             i = 0
@@ -46,24 +46,24 @@ def main_app(name,face_id):
                                 # print('h',i)
                                 if i >5 :
                                     dim =(124,124)
-                                    img = cv2.imread(f".\\facerecognition\\samples\\{pred}.{face_id}.{name}.jpg", cv2.IMREAD_UNCHANGED)
+                                    img = cv2.imread(f"ShadowGui\FaceRecognition\samples\\{pred}.{face_id}.{name}.jpg", cv2.IMREAD_UNCHANGED)
                                     resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-                                    cv2.imwrite(f".\\facerecognition\\samples\\50.{face_id}.{name}.jpg", resized)
-                                    Image1 = Image.open(f".\\facerecognition\\2.png") 
+                                    cv2.imwrite(f"ShadowGui\FaceRecognition\samples\\50.{face_id}.{name}.jpg", resized)
+                                    Image1 = Image.open(r"ShadowGui\FaceRecognition\2.png") 
                                     
                                     # make a copy the image so that the  
                                     # original image does not get affected 
                                     Image1copy = Image1.copy() 
-                                    Image2 = Image.open(f".\\facerecognition\\samples\\25.{face_id}.{name}.jpg") 
+                                    Image2 = Image.open(f"ShadowGui\FaceRecognition\samples\\25.{face_id}.{name}.jpg") 
                                     Image2copy = Image2.copy() 
                                     
                                     # paste image giving dimensions 
                                     Image1copy.paste(Image2copy, (195, 114)) 
                                     
                                     # save the image  
-                                    Image1copy.save(".\\facerecognition\\end.png") 
+                                    Image1copy.save("ShadowGui\FaceRecognition\end.png") 
                                     shadow.speak("verification successful")
-                                    frame = cv2.imread(".\\facerecognition\\end.png", 1)
+                                    frame = cv2.imread("ShadowGui\FaceRecognition\end.png", 1)
 
                                     cv2.imshow(f"Valid User {name}",frame)
                                     cv2.waitKey(5000)
@@ -95,8 +95,8 @@ def main_app(name,face_id):
         cv2.destroyAllWindows()
 
 def namedetect():
-    username = input('Enter you name :') # for login button take name on interface
-    with open('./facerecognition/namelist.txt') as f :
+    username = input('Enter your name :') # for login button take name on interface
+    with open(r"ShadowGui\FaceRecognition\namelist.txt") as f :
         namelist,nameid = [],[]
         for i in f:
             namelist.append(i.split('\n')[0].split('-')[0])

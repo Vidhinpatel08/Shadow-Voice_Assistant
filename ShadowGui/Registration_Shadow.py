@@ -9,7 +9,7 @@ cam.set(3, 640) # set video FrameWidth
 cam.set(4, 480) # set video FrameHeight
 
 
-detector = cv2.CascadeClassifier('./facerecognition/haarcascade_frontalface_default.xml')
+detector = cv2.CascadeClassifier(r'ShadowGui\FaceRecognition\haarcascade_frontalface_default.xml')
 #Haar Cascade classifier is an effective object detection approach
 
 ############### for Registtion Take id & name by user ####################
@@ -23,15 +23,15 @@ name = input("Enter a Name of user  here:  ")
 
 # namelist file management 
 
-f = open('./facerecognition/namelist.txt')
+f = open(r'ShadowGui\FaceRecognition\namelist.txt')
 value = f.read(1)
 f.close()
 if value  == '':
-    with open('./facerecognition/namelist.txt','a') as f :
+    with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
         nameadd = name +"-"+ face_id+'\n'
         f.write(nameadd)
 else:
-    with open('./facerecognition/namelist.txt') as f :
+    with open(r'ShadowGui\FaceRecognition\namelist.txt') as f :
         namelist,nameid = [],[]
         for i in f:
                 namelist.append(i.split('\n')[0].split('-')[0])
@@ -45,7 +45,7 @@ else:
             print('You FAce ID Number Already In Ourdata. Try again With Other ID')
             sys.exit()
         else:
-            with open('./facerecognition/namelist.txt','a') as f :
+            with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
                 nameadd = name +"-"+ face_id+'\n'
                 f.write(nameadd)
 
@@ -64,7 +64,7 @@ while True:
         count += 1
 
         
-        cv2.imwrite("./facerecognition/samples/" + str(count) + '.' +str(face_id)+'.'+ str(name) + ".jpg", converted_image[y:y+h,x:x+w])
+        cv2.imwrite(f"ShadowGui\FaceRecognition\samples\{str(count)}.{str(face_id)}.{str(name)}.jpg", converted_image[y:y+h,x:x+w])
         # To capture & Save images into the datasets folder
 
         cv2.imshow('image', img) #Used to display an image in a window

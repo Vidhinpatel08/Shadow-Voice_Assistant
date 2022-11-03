@@ -1,6 +1,6 @@
 import smtplib
 
-with open('./features/email.txt') as f :
+with open(r'ShadowGui\features\email.txt') as f :
     user_email=f.readline()
     password=f.readline()
     client_email=f.readline()
