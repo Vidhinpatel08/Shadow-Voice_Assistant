@@ -13,8 +13,13 @@ def sendEmail(subject,content):
         server.ehlo()
         server.starttls()
         server.login(user_email, password)
-        server.sendmail(user_email, client_email,subject, content)
+        server.sendmail(user_email, client_email,content,mail_options=subject)
         server.close()
     except Exception as e:
         print(e)
+
+if __name__ =='__main__':
+    sendEmail("these Test","""Hello Sir, 
+    Shadow the Voice Assistent Sends The Email. 
+    This is Mail Description""")
 

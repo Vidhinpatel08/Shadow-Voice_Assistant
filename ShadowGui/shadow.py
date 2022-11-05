@@ -36,96 +36,14 @@ import os
 # # print(voices[1].id)
 # engine.setProperty('voice', voices[0].id)
 
-
 # def speak(audio):
 #     engine.say(audio)
 #     engine.runAndWait()
+
 def speak(str):
     from win32com.client import Dispatch
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
-
-
-
-# Face Recognition
-# def authentication():
-#     recognizer = cv2.face.LBPHFaceRecognizer_create() # Local Binary Patterns Histograms
-#     recognizer.read('./facerecognition/trainer/trainer.yml')   #load trained model
-#     cascadePath = "./facerecognition/haarcascade_frontalface_default.xml"
-#     faceCascade = cv2.CascadeClassifier(cascadePath) #initializing haar cascade for object detection approach
-
-#     font = cv2.FONT_HERSHEY_SIMPLEX #denotes the font type
-
-
-#     id =2 #number of persons you want to Recognize
-
-
-#     names = ['','vidhin']  #names, leave first empty bcz counter starts from 0
-
-
-#     cam = cv2.VideoCapture(0, cv2.CAP_DSHOW) #cv2.CAP_DSHOW to remove warning
-#     cam.set(3, 640) # set video FrameWidht
-#     cam.set(4, 480) # set video FrameHeight
-
-#     # Define min window size to be recognized as a face
-#     minW = 0.1*cam.get(3)
-#     minH = 0.1*cam.get(4)
-
-#     # flag = True
-
-#     while True:
-
-#         ret, img =cam.read() #read the frames using the above created object
-
-#         converted_image = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)  #The function converts an input image from one color space to another
-
-#         faces = faceCascade.detectMultiScale( 
-#             converted_image,
-#             scaleFactor = 1.2,
-#             minNeighbors = 5,
-#             minSize = (int(minW), int(minH)),
-#         )
-
-#         for(x,y,w,h) in faces:
-
-#             cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2) #used to draw a rectangle on any image
-
-#             id, accuracy = recognizer.predict(converted_image[y:y+h,x:x+w]) #to predict on every single image
-
-#             # Check if accuracy is less them 100 ==> "0" is perfect match 
-#             if (accuracy < 100):
-#                 id = names[id]
-#                 accuracy = "  {0}%".format(round(100 - accuracy))
-#                 # Face Recognition
-#                 # pyautogui.press("esc")
-#                 speak("verification successful")
-#                 cam.release()
-#                 cv2.destroyAllWindows()
-#                 time.sleep(0.5)
-#                 print("Thanks for using this program, have a good day.")
-#                 cam.release()
-#                 cv2.destroyAllWindows()
-#                 return
-
-
-#             else:
-#                 id = "unknown"
-#                 accuracy = "  {0}%".format(round(100 - accuracy))
-
-            
-#             cv2.putText(img, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
-#             cv2.putText(img, str(accuracy), (x+5,y+h-5), font, 1, (255,255,0), 1)  
-        
-#         cv2.imshow('camera',img) 
-
-#         k = cv2.waitKey(10) & 0xff # Press 'ESC' for exiting video
-#         if k == 27:
-#             break
-
-#     # Do a bit of cleanup
-#     print("Thanks for using this program, have a good day.")
-#     cam.release()
-#     cv2.destroyAllWindows()
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -149,35 +67,30 @@ class MainThread(QThread):
         self.TaskExecution()
 
     def takeCommand(self):
-        #It takes microphone input from the user and returns string output
-
+        """takeing Command as query for the Microphone and return string as output"""
         r = sr.Recognizer()
         with sr.Microphone() as source:
             print("\nListening...")
-            r.pause_threshold = 2
+            r.pause_threshold = 2 # time of stop between your speech to exection 
+            r.energy_threshold = 200  # increment if backgroud voice high.. & decrement if voice not peroper listening.. 
             audio = r.listen(source)
 
-        try:
-            print("Recognizing...")    
-            query = r.recognize_google(audio, language='en-in')
-            print(f"User said: {query}\n")
+        try :
+            print("Recogngizing...")
+            query = r.recognize_google(audio,language= 'en-in')
+            print(f'User Said : {query}')
 
-        except Exception as e:
-            # print(e)    
-            print("Say that again please...")  
-            return "None"
-        query=query.lower()
-        return query
+        except Exception as e :
+            print('Say that again Please...')
+            return 'None'
+        
+        return query.lower().strip()
 
 
     def TaskExecution(self):
-        # pyautogui.press("esc")
-        # speak("verification successful")
-        # wishMe()
+        wishMe()
         while True:
-        # if 1:
             self.query = self.takeCommand()
-            # Done 
             if 'wikipedia' in self.query:
                 speak('Searching Wikipedia...')
                 self.query = self.query.replace("wikipedia", "")
@@ -185,8 +98,7 @@ class MainThread(QThread):
                 speak("According to Wikipedia")
                 print(results)
                 speak(results)
-            
-            # Done 
+
             elif 'open youtube' in self.query:
                 webbrowser.open("youtube.com")
 
@@ -205,9 +117,7 @@ class MainThread(QThread):
                 # kit.sendwhatsmsg("your number","your message",time in hour,time in min) 
                 current_hour = int(datetime.datetime.now().strftime("%H"))
                 current_minute = int(datetime.datetime.now().strftime("%M")) +1
-
                 kit.sendwhatmsg("+91 63xxxxxxxx","Shadow send a message",current_hour,current_minute)
-
 
             elif "play songs on youtube" in self.query:
                 speak('Sir, what would you like to listen ?')
@@ -231,9 +141,6 @@ class MainThread(QThread):
 
             elif 'read' in self.query:
                 f.text2speech()
-
-            # elif 'open' in self.query:
-            #     os.system(f'explorer c://{}'.format(self.query.replace('open','')))
 
             elif 'joke' in self.query:
                 speak(pyjokes.get_joke())
@@ -290,9 +197,6 @@ class MainThread(QThread):
                     # print(e)
                     speak("Sorry my sir  I am not able to send this email")  
 
-
-            #############################################################
-            #to set an alarm
             elif "set alarm" in self.query or "set an alarm" in self.query or "set the alarm" in self.query or "alarm" in self.query:
                 speak("Sir now can excess the terminal to set alarm")
                 alarm.alaramplay()
@@ -311,8 +215,6 @@ class MainThread(QThread):
                 time.sleep(timing)
                 speak('Your time has been finished sir')
 
-            elif 'hi' in self.query or 'hello' in self.query or "hai" in self.query:
-                speak('Hello sir, how may I help you?')
 
             elif "tell me joke" in self.query :
                 joke = pyjokes.get_joke()
@@ -331,12 +233,19 @@ class MainThread(QThread):
 
             elif "who are you" in self.query or  "your intro" in self.query:
                 speak("I am shadow Sir. I'm Voice Assistent of Vidhin")       
+            
+            # elif 'hi' in self.query or 'hello' in self.query or "hai" in self.query:
+            #     speak('Hello sir, how may I help you?')
 
             # elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
             #     speak('thanks for using me sir, have a good day!')
             #     QtWidgets.QStackedWidget().close   
 
+            # elif 'open' in self.query:
+            #     os.system(f'explorer c://{}'.format(self.query.replace('open','')))
+            
             # Dangerorus commands 
+
             elif "shutdown the system" in self.query:
                 os.system("shutdown /s /t 5")
                 
@@ -351,12 +260,14 @@ class MainThread(QThread):
 startExecution = MainThread()
 
 class Main(QMainWindow):
+
     def __init__(self):
         super().__init__()
         self.ui = Ui_ShadowUI()
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.starttask)        
         self.ui.pushButton_2.clicked.connect(self.close)  
+        speak(f'sir, Please click on RUN button to start me & click On EXIT to Stop me.')
 
     def starttask(self):
         self.ui.movie = QtGui.QMovie(r"ShadowGui\images\Main.gif")      # path of main bg_image (Labal-1)
@@ -382,19 +293,11 @@ class Main(QMainWindow):
         self.ui.textBrowser_2.setText(label_time)
 
 
-# def startex(name):
-#     speak(f'Welcome back {name} sir')
-    # app = QApplication(sys.argv)
-#     speak(f'{name} sir, Please click on RUN button to start me & click On EXIT to Stop me.')
-    # shadow = Main()
-    # shadow.show()
-    # exit(app.exec_())
+
 
 if __name__=="__main__":
-    # authentication() # Face Recognition
-    # app = QApplication(sys.argv)
-    # shadow = Main()
-    # shadow.show()
-    # exit(app.exec_())
-    # startex('vidhin') # here you name 
-    pass 
+    app = QApplication(sys.argv)
+    shadow = Main()
+    shadow.show()
+    exit(app.exec_())
+    pass

@@ -1,12 +1,12 @@
 ShadowGui/FaceRecognition/samples/
 ShadowGui/FaceRecognition/trainer/
-ShadowGui/__pycache__
+ShadowGui/FaceRecognition/__pycache__/
+ShadowGui/__pycache__/
 ShadowGui/shadowUI.ui
 ShadowGui/features/email.txt
 ShadowGui/features/youtube_alarm_videos.txt
 ShadowGui/features/screenshots/
 ShadowGui/FaceRecognition/end.png
-ShadowGui/features/__pycache__
-__pycache__
+ShadowGui/features/__pycache__/
+__pycache__/
 ShadowGui/FaceRecognition/end.png
-ShadowGui/FaceRecognition/__pycache__/Model_Trainer.cpython-310.pyc

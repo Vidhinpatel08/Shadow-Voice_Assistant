@@ -1,3 +1,4 @@
+import re
 import sys
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
@@ -33,7 +34,7 @@ class login(QDialog):
                 warningmsg = 'You are not allow to input any input is blank'
                 self.warning.setVisible(True)
                 self.warning.setText(warningmsg)
-        else:         
+        elif re.search(r"[a-zA-z0-9+._%$&]+@[a-zA-z0-9+_%$&]+[.][a-zA-z.0-9]+",userEmail) :
             namelist,nameid,nameEmail = [],[],[]
             with open(r"ShadowGui\FaceRecognition\namelist.txt") as f :
                 for i in f:
@@ -41,26 +42,39 @@ class login(QDialog):
                     nameid.append(i.split('\n')[0].split('-')[1])
                     nameEmail.append(i.split('\n')[0].split('-')[2])
             if userEmail in nameEmail:
+                warningmsg = 'press "q" to Exit Camera Screen' 
+                self.warning.setVisible(True)
+                self.warning.setText(warningmsg)
+
                 index = nameEmail.index(userEmail)
-                # print('index',index)
                 face_id = nameid[index]
-                # print('faceid :',face_id)
                 username = namelist[index]
-                # print('username :',username)
                 print(username,face_id,userEmail)
-                loginShadow.main_app(username,face_id,userEmail)
-                MainWindow = Main()
-                widget.addWidget(MainWindow)
-                widget.setFixedHeight(751)
-                widget.setFixedWidth(1168)
-                widget.setCurrentIndex(widget.currentIndex()+1)
+
+
+                authenticate = loginShadow.main_app(username,face_id,userEmail)
+                print("Authenticate",authenticate)
+                if authenticate == 'done':
+                    MainWindow = Main()
+                    widget.addWidget(MainWindow)
+                    widget.setFixedHeight(751)
+                    widget.setFixedWidth(1168)
+                    widget.setCurrentIndex(widget.currentIndex()+1)
+                else:
+                    warningmsg = 'You are not Authenticate person!, check Email id'
+                    self.warning.setVisible(True)
+                    self.warning.setText(warningmsg)
                         
             else:
                 warningmsg = 'You Email Not Matching In Ourdata. Try again With Correct Email'
                 self.warning.setVisible(True)
                 self.warning.setText(warningmsg)
                 self.emailEdit.setText('')
-    
+        else:
+            warningmsg = 'Email not valid !'
+            self.warning.setVisible(True)
+            self.warning.setText(warningmsg)
+
     def gotoRegister(self):
         registeruser = Register()
         widget.addWidget(registeruser)
@@ -82,57 +96,61 @@ class Register(QDialog):
             face_id = face_id[1:]
         name = self.nameEdit.text().lower().strip()
         emaild = self.emailEdit.text().lower().strip()
-
-        self.warning.setVisible(False)
-        # namelist file management 
-        if face_id == '' or name == ''  or emaild == '':
-                warningmsg = 'You are not allow to input any input is blank'
-                self.warning.setVisible(True)
-                self.warning.setText(warningmsg)
-        else:         
-            f = open(r'ShadowGui\FaceRecognition\namelist.txt')
-            value = f.read(1)
-            f.close()
-            if value  == '':
-                with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
-                    nameadd = name +"-"+ face_id+'-'+emaild+'\n'
-                    f.write(nameadd)
-            else:
-                with open(r'ShadowGui\FaceRecognition\namelist.txt') as f :
-                    namelist,nameid,nameEmail = [],[],[]
-                    for i in f:
-                            namelist.append(i.split('\n')[0].split('-')[0])
-                            nameid.append(i.split('\n')[0].split('-')[1])
-                            nameEmail.append(i.split('\n')[0].split('-')[2])
-                    if face_id in nameid:
-                        warningmsg = 'You Face ID Number Already In Ourdata. Try again With Other ID'
-                        self.warning.setVisible(True)
-                        self.warning.setText(warningmsg)
-                        self.idEdit.setText('')
-                    elif name in namelist:
-                        warningmsg = 'You Name Already In Ourdata. Try again With Other name'
-                        self.warning.setVisible(True)
-                        self.warning.setText(warningmsg)
-                        self.nameEdit.setText('')                    
-                    elif emaild in nameEmail:
-                        warningmsg = 'You Email Already In Ourdata. Try again With Other ID'
-                        self.warning.setVisible(True)
-                        self.warning.setText(warningmsg)
-                        self.emailEdit.setText('')                    
-                    else:
-                        with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
-                            nameadd = name +"-"+ face_id+'-'+emaild+'\n'
-                            f.write(nameadd)
-                        print('start')
-                        self.button.setDisabled(True)
-                        self.setDisabled(True)
-                        
-                        Rs.register(name ,face_id,emaild)
-                        Mt.starttrainer(name,emaild)
-                        Login = login()
-                        widget.addWidget(Login)
-                        widget.setCurrentIndex(widget.currentIndex()+1)
-                        
+        if not re.search(r"[a-zA-z0-9+._%$&]+@[a-zA-z0-9+_%$&]+[.][a-zA-z.0-9]+",emaild) :
+            warningmsg = 'Email not valid !'
+            self.warning.setVisible(True)
+            self.warning.setText(warningmsg) 
+        else:          
+            self.warning.setVisible(False)
+            # namelist file management 
+            if face_id == '' or name == ''  or emaild == '':
+                    warningmsg = 'You are not allow to input any input is blank'
+                    self.warning.setVisible(True)
+                    self.warning.setText(warningmsg)
+            else:         
+                f = open(r'ShadowGui\FaceRecognition\namelist.txt')
+                value = f.read(1)
+                f.close()
+                if value  == '':
+                    with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
+                        nameadd = name +"-"+ face_id+'-'+emaild+'\n'
+                        f.write(nameadd)
+                else:
+                    with open(r'ShadowGui\FaceRecognition\namelist.txt') as f :
+                        namelist,nameid,nameEmail = [],[],[]
+                        for i in f:
+                                namelist.append(i.split('\n')[0].split('-')[0])
+                                nameid.append(i.split('\n')[0].split('-')[1])
+                                nameEmail.append(i.split('\n')[0].split('-')[2])
+                        if face_id in nameid:
+                            warningmsg = 'You Face ID Number Already In Ourdata. Try again With Other ID'
+                            self.warning.setVisible(True)
+                            self.warning.setText(warningmsg)
+                            self.idEdit.setText('')
+                        elif name in namelist:
+                            warningmsg = 'You Name Already In Ourdata. Try again With Other name'
+                            self.warning.setVisible(True)
+                            self.warning.setText(warningmsg)
+                            self.nameEdit.setText('')                    
+                        elif emaild in nameEmail:
+                            warningmsg = 'You Email Already In Ourdata. Try again With Other ID'
+                            self.warning.setVisible(True)
+                            self.warning.setText(warningmsg)
+                            self.emailEdit.setText('')                    
+                        else:
+                            with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
+                                nameadd = name +"-"+ face_id+'-'+emaild+'\n'
+                                f.write(nameadd)
+                            print('start')
+                            self.button.setDisabled(True)
+                            self.setDisabled(True)
+                            
+                            Rs.register(name ,face_id,emaild)
+                            Mt.starttrainer(name,emaild)
+                            Login = login()
+                            widget.addWidget(Login)
+                            widget.setCurrentIndex(widget.currentIndex()+1)
+                            
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -140,7 +158,8 @@ class Main(QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.starttask)        
         self.ui.pushButton_2.clicked.connect(widget.close)  
-
+        shadow.speak(f'sir, Please click on RUN button to start me & click On EXIT to Stop me.')
+        
     def starttask(self):
         self.ui.movie = QtGui.QMovie(r"ShadowGui\images\Main.gif")      # path of main bg_image (Labal-1)
         self.ui.label.setMovie(self.ui.movie)

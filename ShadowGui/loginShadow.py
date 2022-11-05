@@ -69,7 +69,7 @@ def main_app(name,face_id,emaild):
                                     cv2.waitKey(5000)
                                     cap.release()
                                     cv2.destroyAllWindows()
-                                    return
+                                    return "done"
                                     # shadow.startex(name.capitalize())
                                                          
                 else:   
@@ -84,7 +84,10 @@ def main_app(name,face_id,emaild):
 
             if cv2.waitKey(20) & 0xFF == ord('q'):
                 #if not match then press q to exit
-                    break
+                cv2.waitKey(5000)
+                cap.release()
+                cv2.destroyAllWindows()
+                return 'None'
 
 
         cap.release()
