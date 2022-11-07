@@ -26,7 +26,7 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(176, 176, 176);</string>
   </property>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
@@ -38,8 +38,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(0, 0, 0);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+    <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
     <string>Enter your Email</string>
@@ -48,16 +47,15 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QPushButton" name="button">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>220</x>
      <y>290</y>
-     <width>131</width>
-     <height>31</height>
+     <width>211</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 14pt &quot;MS Shell Dlg 2&quot;;
-background-color: rgb(0, 255, 0);
-</string>
+    <string notr="true">font: 87 italic 12pt &quot;Segoe UI Black&quot;;
+background-color: rgb(55, 170, 82);</string>
    </property>
    <property name="text">
     <string>Log In</string>
@@ -66,19 +64,19 @@ background-color: rgb(0, 255, 0);
   <widget class="QLabel" name="warning">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>230</y>
-     <width>541</width>
-     <height>31</height>
+     <x>30</x>
+     <y>220</y>
+     <width>621</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:rgb(6, 6, 6);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-background-color: rgb(170, 170, 170);</string>
+    <string notr="true">font: 87 italic 11pt &quot;Segoe UI Black&quot;;
+color: rgb(255, 0, 0);
+selection-background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>Label</string>
+    <string>You Email Not Matching In Ourdata. Try again With Correct Email'</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -91,7 +89,9 @@ background-color: rgb(170, 170, 170);</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 75 22pt &quot;MS Sans Serif&quot;;</string>
+    <string notr="true">font: 75 22pt &quot;MS Sans Serif&quot;;
+font: 87 italic 16pt &quot;Segoe UI Black&quot;;
+font: 87 italic 22pt &quot;Segoe UI Black&quot;;</string>
    </property>
    <property name="text">
     <string>LOG IN</string>
@@ -139,6 +139,9 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
      <width>371</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
   </widget>
  </widget>

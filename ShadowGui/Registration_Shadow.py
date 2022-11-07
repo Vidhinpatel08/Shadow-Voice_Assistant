@@ -83,8 +83,8 @@ def register(name,face_id,emaild):
     # loginShadow.namedetect()
 
 if __name__ =="__main__":
-    pass
     # register('','','')
+    pass
 
 
 

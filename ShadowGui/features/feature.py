@@ -1,3 +1,4 @@
+import datetime
 import requests
 import time as tt
 import random
@@ -11,6 +12,19 @@ def speak(str):
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
 
+def wishMe():
+    hour = int(datetime.datetime.now().hour)
+    if hour>=0 and hour<12:
+        speak("Good Morning!")
+
+    elif hour>=12 and hour<18:
+        speak("Good Afternoon!")   
+
+    else:
+        speak("Good Evening!")  
+
+    speak("I am shadow Sir. Please tell me how may I help you") 
+         
 def text2speech():
     text = clipboard.paste()
     print(text)
@@ -55,3 +69,16 @@ def passwordgen():
     newpass = ("".join(s[0:passlen]))
     print(newpass)
     speak(newpass)
+
+def aboutFunction():
+    speak("I am Shadow 2.0 An advanced AI model.")
+    speak("I am developed by Vidhin , Jeet and Jeneesh Patel") 
+    speak("I am here to assist you to use this app easily")
+    tt.sleep(0.5)
+    speak("In this software, I will be assisting you in few tasks like")
+    speak("doing google search")
+    tt.sleep(0.2)
+    speak("opening any software")
+    tt.sleep(0.2)
+    speak("and a lot more.")
+    tt.sleep(0.5)

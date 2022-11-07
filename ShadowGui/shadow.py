@@ -45,20 +45,6 @@ def speak(str):
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
 
-def wishMe():
-    hour = int(datetime.datetime.now().hour)
-    if hour>=0 and hour<12:
-        speak("Good Morning!")
-
-    elif hour>=12 and hour<18:
-        speak("Good Afternoon!")   
-
-    else:
-        speak("Good Evening!")  
-
-    speak("I am shadow Sir. Please tell me how may I help you")       
-
-
 class MainThread(QThread):
     def __init__(self):
         super (MainThread,self).__init__()
@@ -88,7 +74,7 @@ class MainThread(QThread):
 
 
     def TaskExecution(self):
-        wishMe()
+        f.wishMe()
         while True:
             self.query = self.takeCommand()
             if 'wikipedia' in self.query:
@@ -98,6 +84,11 @@ class MainThread(QThread):
                 speak("According to Wikipedia")
                 print(results)
                 speak(results)
+
+            if 'search' in self.query:
+                speak('Searching on google...')
+                query = self.query.replace("search", "")
+                webbrowser.open(f"{query}")
 
             elif 'open youtube' in self.query:
                 webbrowser.open("youtube.com")
@@ -114,10 +105,10 @@ class MainThread(QThread):
                 webbrowser.open("stackoverflow.com")   
 
             elif "send message" in self.query:
-                # kit.sendwhatsmsg("your number","your message",time in hour,time in min) 
                 current_hour = int(datetime.datetime.now().strftime("%H"))
                 current_minute = int(datetime.datetime.now().strftime("%M")) +1
                 kit.sendwhatmsg("+91 63xxxxxxxx","Shadow send a message",current_hour,current_minute)
+                # kit.sendwhatsmsg("your number","your message",time in hour,time in min) 
 
             elif "play songs on youtube" in self.query:
                 speak('Sir, what would you like to listen ?')
@@ -231,21 +222,14 @@ class MainThread(QThread):
                 speak("please Wait sir, feteching the latest news.")
                 news.news()
 
-            elif "who are you" in self.query or  "your intro" in self.query:
-                speak("I am shadow Sir. I'm Voice Assistent of Vidhin")       
-            
-            # elif 'hi' in self.query or 'hello' in self.query or "hai" in self.query:
-            #     speak('Hello sir, how may I help you?')
+            elif 'hi' in self.query or 'hello' in self.query or "hey" in self.query or "who are you" in self.query or  "your intro" in self.query:
+                f.aboutFunction()
 
-            # elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
-            #     speak('thanks for using me sir, have a good day!')
-            #     QtWidgets.QStackedWidget().close   
+            elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
+                speak('thanks for using me sir, have a good day!')
+                speak('Sorry but Can you click On EXIT to Stop me.')
 
-            # elif 'open' in self.query:
-            #     os.system(f'explorer c://{}'.format(self.query.replace('open','')))
-            
             # Dangerorus commands 
-
             elif "shutdown the system" in self.query:
                 os.system("shutdown /s /t 5")
                 

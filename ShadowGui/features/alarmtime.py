@@ -1,15 +1,17 @@
 import datetime
 import os
+from pygame import mixer
+from pygame.locals import *
 import time
-import random
-import webbrowser
 
+
+def playmusic():
+    music_dir = 'D:\\Audio' # music directry path 
+    # songs = os.listdir(music_dir)
+    os.startfile(os.path.join(music_dir,'AI_alarm05.mp3'))
+	
 def alaramplay():
-	# If video URL file does not exist, create one
-	if not os.path.isfile("youtube_alarm_videos.txt"):
-		print('Creating "youtube_alarm_videos.txt"...')
-		with open("ShadowGui/features/youtube_alarm_videos.txt", "w") as alarm_file:
-			alarm_file.write("https://www.youtube.com/watch?v=-0o79IMmAYE")
+
 	def check_alarm_input(alarm_time):
 		"""Checks to see if the user has entered in a valid alarm time"""
 		if len(alarm_time) == 1: # [Hour] Format
@@ -55,17 +57,14 @@ def alaramplay():
 		time_diff_seconds += 86400 # number of seconds in a day
 
 	# Display the amount of time until the alarm goes off
-	print("Alarm set to go off in %s" % datetime.timedelta(seconds=time_diff_seconds))
+	print(f"Alarm set to go off in {datetime.timedelta(seconds=time_diff_seconds)}")
 
 	# Sleep until the alarm goes off
 	time.sleep(time_diff_seconds)
 
 	# Time for the alarm to go off
 	print("Wake Up!")
+	playmusic()
 
-	# Load list of possible video URLs
-	with open("ShadowGui/features/youtube_alarm_videos.txt", "r") as alarm_file:
-		videos = alarm_file.readlines()
-
-	# Open a random video from the list
-	webbrowser.open(random.choice(videos))
+if __name__ == '__main__':
+	alaramplay()

@@ -90,9 +90,6 @@ def main_app(name,face_id,emaild):
                 return 'None'
 
 
-        cap.release()
-        cv2.destroyAllWindows()
-
 def namedetect():
     # userEmail = input('Enter your Email :').lower() # for login button take name on interface
     # namelist,nameid,nameEmail = [],[],[]
