@@ -61,7 +61,6 @@ class Ui_ShadowUI(object):
         font.setPointSize(10)
         self.textBrowser.setFont(font)
         self.textBrowser.setStyleSheet("background:transparenet;\n"
-"boder-radius:none;\n"
 "color:white;\n"
 "font-size:26px;\n")
         self.textBrowser.setObjectName("textBrowser")
@@ -71,7 +70,6 @@ class Ui_ShadowUI(object):
         font.setPointSize(10)
         self.textBrowser_2.setFont(font)
         self.textBrowser_2.setStyleSheet("background:transparenet;\n"
-"boder-radius:none;\n"
 "color:white;\n"
 "font-size:26px;\n")
         self.textBrowser_2.setObjectName("textBrowser_2")
@@ -83,8 +81,7 @@ class Ui_ShadowUI(object):
         font.setWeight(75)
         self.label_3.setFont(font)
         self.label_3.setStyleSheet("color: rgb(255, 255, 255);\n"
-"background-color: rgb(0, 0, 0);\n"
-"text-aline:center;")
+"background-color: rgb(0, 0, 0);\n")
         self.label_3.setText("")
         self.label_3.setPixmap(QtGui.QPixmap(r"ShadowGui\images\shadow.gif"))
         self.label_3.setScaledContents(True)

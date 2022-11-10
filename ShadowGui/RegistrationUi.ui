@@ -109,7 +109,7 @@ background-color: rgb(55, 170, 82);</string>
 font: 87 italic 22pt &quot;Segoe UI Black&quot;;</string>
    </property>
    <property name="text">
-    <string>Registation </string>
+    <string>Registration </string>
    </property>
   </widget>
   <widget class="QLineEdit" name="idEdit">

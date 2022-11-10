@@ -91,7 +91,10 @@ class MainThread(QThread):
                 webbrowser.open(f"{query}")
 
             elif 'open youtube' in self.query:
-                webbrowser.open("youtube.com")
+                print('\nWhat should I Search on Youtube ?',end='')
+                speak('What should I Search on Youtube ?')
+                cm = self.takeCommand().lower()
+                kit.playonyt(cm) 
 
             elif "open facebook" in self.query:
                 webbrowser.open("www.facebook.com")

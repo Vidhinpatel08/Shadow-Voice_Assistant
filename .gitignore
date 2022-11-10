@@ -7,9 +7,16 @@ ShadowGui/features/email.txt
 ShadowGui/features/youtube_alarm_videos.txt
 ShadowGui/features/screenshots/
 ShadowGui/FaceRecognition/end.png
+ShadowGui/FaceRecognition/__pycache__/
 ShadowGui/features/__pycache__/
 __pycache__/
 ShadowGui/FaceRecognition/end.png
 *.__pycache__
-*pyc
+*.pyc
 *__pycache__
+images_output
+
+commandOutput
+
+ShadowGui/FaceRecognition/__pycache__/
+ShadowGui/FaceRecognition/__pycache__

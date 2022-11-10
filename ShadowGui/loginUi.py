@@ -42,7 +42,7 @@ class login(QDialog):
                     nameid.append(i.split('\n')[0].split('-')[1])
                     nameEmail.append(i.split('\n')[0].split('-')[2])
             if userEmail in nameEmail:
-                warningmsg = 'press "q" to Exit Camera Screen' .upper()
+                warningmsg = 'press "q" to Exit Camera Screen'.upper()
                 self.warning.setVisible(True)
                 self.warning.setText(warningmsg)
 
@@ -83,7 +83,7 @@ class login(QDialog):
 class Register(QDialog):
     def __init__(self):
         super(Register, self).__init__()
-        loadUi("ShadowGui/RegistationUi.ui",self)
+        loadUi("ShadowGui/RegistrationUi.ui",self)
         self.warning.setVisible(False)
 
         # Button
@@ -118,7 +118,6 @@ class Register(QDialog):
                 with open(r'ShadowGui\FaceRecognition\namelist.txt') as f :
                     namelist,nameid,nameEmail = [],[],[]
                     for i in f:
-                            namelist.append(i.split('\n')[0].split('-')[0])
                             nameid.append(i.split('\n')[0].split('-')[1])
                             nameEmail.append(i.split('\n')[0].split('-')[2])
                     if face_id in nameid:
@@ -126,11 +125,6 @@ class Register(QDialog):
                         self.warning.setVisible(True)
                         self.warning.setText(warningmsg)
                         self.idEdit.setText('')
-                    elif name in namelist:
-                        warningmsg = 'Name Already In Database. Try again With Other name'.upper()
-                        self.warning.setVisible(True)
-                        self.warning.setText(warningmsg)
-                        self.nameEdit.setText('')                    
                     elif emaild in nameEmail:
                         warningmsg = 'Email Already In Database. Try again With Other ID'.upper()
                         self.warning.setVisible(True)
@@ -140,7 +134,7 @@ class Register(QDialog):
                         with open(r'ShadowGui\FaceRecognition\namelist.txt','a') as f :
                             nameadd = name +"-"+ face_id+'-'+emaild+'\n'
                             f.write(nameadd)
-                        print('starting Registation...')
+                        print('starting Registration...')
                         self.button.setDisabled(True)
                         self.setDisabled(True)
                         

@@ -15,15 +15,19 @@ def speak(str):
 def wishMe():
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
+        print("Good Morning!")
         speak("Good Morning!")
 
     elif hour>=12 and hour<18:
+        print("Good Afternoon!")
         speak("Good Afternoon!")   
 
     else:
+        print("Good Evening!")
         speak("Good Evening!")  
 
-    speak("I am shadow Sir. Please tell me how may I help you") 
+    print("I am Shadow Sir. Please tell me how may I help you") 
+    speak("I am Shadow Sir. Please tell me how may I help you") 
          
 def text2speech():
     text = clipboard.paste()
