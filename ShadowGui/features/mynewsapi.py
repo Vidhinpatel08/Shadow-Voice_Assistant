@@ -1,13 +1,23 @@
 import requests
 import json
+import pyttsx3
+# import feature as f
 
+# engine = pyttsx3.init('sapi5')
+# voices = engine.getProperty('voices')
+# engine.setProperty('voice',voices[0].id)
+
+# def speak(audio):
+#     """Take String as input and say on audio with help of speakers.."""
+#     # print(f'Computer Said : {audio}')
+#     engine.say(audio)
+#     engine.runAndWait()
 
 def speak(str):
     from win32com.client import Dispatch
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
-
-
+    
 def news():
     speak("News for today.. Lets begin")
 
@@ -25,5 +35,5 @@ def news():
         speak(arg)
 
 if __name__ == "__main__":
-    news()
-
+    # news()
+    speak("hello")

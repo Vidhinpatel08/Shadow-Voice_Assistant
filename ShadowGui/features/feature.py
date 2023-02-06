@@ -1,11 +1,13 @@
 import datetime
-import requests
-import time as tt
 import random
 import string
-import psutil 
+import time as tt
+
 import clipboard
-import pyautogui # pip install pyautogui
+import psutil
+import pyautogui  # pip install pyautogui
+import requests
+
 
 def speak(str):
     from win32com.client import Dispatch
@@ -44,39 +46,39 @@ def covid():
 
 def screenshot():
     name_img = tt.time()
-    name_img = f'./features/screenshots/{name_img}.png'
+    name_img = f'ShadowGui/features/screenshots/{name_img}.png'
     img = pyautogui.screenshot(name_img)
     img.show()
 
 
 def cpu():
     usage = str(psutil.cpu_percent())
-    speak('cpu is at'+ usage)
+    print(f'CPU USage is at {usage}')
+    speak(f'CPU USage is at {usage}')
     battery = psutil.sensors_battery()
-    speak('battery is at')
-    speak(battery.percent)
+    print(f'battery is at {battery.percent}')
+    speak(f'battery is at {battery.percent}')
+
 
 def passwordgen():
-    s1 = string.ascii_uppercase
-    s2 = string.ascii_lowercase
-    s3 = string.digits
-    s4 = string.punctuation
+    s1 = string.ascii_letters
+    s2 = string.digits
+    s3 = r"@#$_-+"
 
     passlen = 8
     s = []
     s.extend(list(s1))
     s.extend(list(s2))
     s.extend(list(s3))
-    s.extend(list(s4))
 
     random.shuffle(s)
     newpass = ("".join(s[0:passlen]))
-    print(newpass)
+    print('Password Is: ',newpass)
     speak(newpass)
 
 def aboutFunction():
     speak("I am Shadow 2.0 An advanced AI model.")
-    speak("I am developed by Vidhin , Jeet and Jeneesh Patel") 
+    speak("I am developed by Vidhin Patel, Jeet Patel and Jeneesh Patel") 
     speak("I am here to assist you to use this app easily")
     tt.sleep(0.5)
     speak("In this software, I will be assisting you in few tasks like")
@@ -86,3 +88,7 @@ def aboutFunction():
     tt.sleep(0.2)
     speak("and a lot more.")
     tt.sleep(0.5)
+
+if __name__ == "__main__":
+    passwordgen()
+    pass

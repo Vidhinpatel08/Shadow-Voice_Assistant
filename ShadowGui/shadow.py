@@ -1,4 +1,3 @@
-# from socket import timeout
 import pyttsx3 #pip install pyttsx3
 import speech_recognition as sr #pip install speechRecognition
 import datetime
@@ -10,40 +9,37 @@ import pywhatkit as kit # pip install pywhatkit
 import pyjokes  # pip install pyjokes 
 from requests import get
 import sys
+import pyautogui # pip install pyautogui
 import features.emailmodule as em
+import features.whatsapp as wp
 import features.mynewsapi as news
 import features.musiclist as musiclist
-import pyautogui # pip install pyautogui
 import features.feature as f
 import features.alarmtime as alarm
+from shadowUi import Ui_ShadowUI
 
 from PyQt5 import QtWidgets,QtCore, QtGui
 from PyQt5.QtCore import QTimer, QTime , QDate, Qt 
-from PyQt5.QtGui import QMovie
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.uic import loadUiType
-from shadowUi import Ui_ShadowUI
-
-# Face Recognition
-import cv2
-import numpy as np
-import os
-
-# engine = pyttsx3.init('sapi5')
-# voices = engine.getProperty('voices')
-# # print(voices[1].id)
-# engine.setProperty('voice', voices[0].id)
-
-# def speak(audio):
-#     engine.say(audio)
-#     engine.runAndWait()
+# from PyQt5.QtGui import QMovie
+# from PyQt5.uic import loadUiType
 
 def speak(str):
     from win32com.client import Dispatch
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
+
+# engine = pyttsx3.init('sapi5')
+# voices = engine.getProperty('voices')
+# engine.setProperty('voice',voices[0].id)
+
+# def speak(audio):
+#     """Take String as input and say on audio with help of speakers.."""
+#     # print(f'Computer Said : {audio}')
+#     engine.say(audio)
+#     engine.runAndWait()
 
 class MainThread(QThread):
     def __init__(self):
@@ -62,7 +58,7 @@ class MainThread(QThread):
             audio = r.listen(source)
 
         try :
-            print("Recogngizing...")
+            print("Recognizing...")
             query = r.recognize_google(audio,language= 'en-in')
             print(f'User Said : {query}')
 
@@ -72,9 +68,8 @@ class MainThread(QThread):
         
         return query.lower().strip()
 
-
     def TaskExecution(self):
-        f.wishMe()
+        # f.wishMe()
         while True:
             self.query = self.takeCommand()
             if 'wikipedia' in self.query:
@@ -90,33 +85,36 @@ class MainThread(QThread):
                 query = self.query.replace("search", "")
                 webbrowser.open(f"{query}")
 
+            elif 'open google' in self.query:
+                print('Sir, what should i search in Google')
+                speak('Sir, what should i search in Google')
+                cm = self.takeCommand()
+                webbrowser.open(f"{cm}")
+
             elif 'open youtube' in self.query:
                 print('\nWhat should I Search on Youtube ?',end='')
                 speak('What should I Search on Youtube ?')
                 cm = self.takeCommand().lower()
                 kit.playonyt(cm) 
 
-            elif "open facebook" in self.query:
-                webbrowser.open("www.facebook.com")
-
-            elif 'open google' in self.query:
-                speak('Sir, what should i search in Google')
-                cm = self.takeCommand()
-                webbrowser.open(f"{cm}")
-
-            elif 'open stack overflow' in self.query:
-                webbrowser.open("stackoverflow.com")   
-
-            elif "send message" in self.query:
-                current_hour = int(datetime.datetime.now().strftime("%H"))
-                current_minute = int(datetime.datetime.now().strftime("%M")) +1
-                kit.sendwhatmsg("+91 63xxxxxxxx","Shadow send a message",current_hour,current_minute)
-                # kit.sendwhatsmsg("your number","your message",time in hour,time in min) 
-
             elif "play songs on youtube" in self.query:
                 speak('Sir, what would you like to listen ?')
                 cm = self.takeCommand().lower()
                 kit.playonyt(cm) 
+
+            elif "open facebook" in self.query:
+                webbrowser.open("www.facebook.com")
+
+            elif 'open stack overflow' in self.query:
+                webbrowser.open("stackoverflow.com")   
+
+            elif "send message" in self.query or "send a message" in self.query or "send a message on whatsapp" in self.query  or "send message on whatsapp" in self.query:
+                if "to" in self.query or "for" in self.query:
+                    recipient = self.query.split("to", 1)[-1].split("for", 1)[-1].strip()
+                    wp.message(to=recipient)
+                else:
+                    wp.message(to='')
+
 
             elif 'play music' in self.query:
                 musiclist.playmusic()
@@ -136,14 +134,12 @@ class MainThread(QThread):
             elif 'read' in self.query:
                 f.text2speech()
 
-            elif 'joke' in self.query:
-                speak(pyjokes.get_joke())
 
             elif 'what is time' in self.query or 'current time'in self.query:
                 strTime = datetime.datetime.now().strftime("%H:%M:%S")    
                 speak(f"Sir, the time is {strTime}")
   
-            elif 'date' in self.query:
+            elif 'date' in self.query or 'what is date' in self.query or 'what is the date' in self.query:
                 year = datetime.datetime.now().year
                 month = datetime.datetime.now().month
                 date = datetime.datetime.now().day
@@ -151,8 +147,7 @@ class MainThread(QThread):
                         
 
             elif 'open code' in self.query:
-                codePath = "C:\\Users\\vidhi\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe" 
-                #   vscode path
+                codePath = r"C:\Users\vidhi\AppData\Local\Programs\Microsoft VS Code\Code.exe"
                 os.startfile(codePath)
 
             elif 'close vs code' in self.query or 'close vscode' in self.query:
@@ -161,15 +156,13 @@ class MainThread(QThread):
 
             elif 'open notepad' in self.query:
                 codePath = "C:\\Windows\\System32\\notepad.exe" 
-                #   Notepad path
                 os.startfile(codePath)
 
             elif 'close notepad' in self.query:
                 speak("Okk sir, cloasing  notepad")
                 os.system('taskkill /f /im notepad.exe')
 
-            elif 'open command prompt' in self.query:
-                # print("Enterd")
+            elif 'open command prompt' in self.query or 'cmd' in self.query:
                 os.system("start cmd")
 
             elif 'ip address' in self.query:
@@ -177,15 +170,12 @@ class MainThread(QThread):
                 print(f"your ip address is {ip}")
                 speak(f"your ip address is {ip}")
 
-            elif 'email to' in self.query or 'send email' in self.query:
+            elif 'email to' in self.query or 'send email' in self.query or 'send a email' in self.query:
                 try:
-                    speak('what is your subject ?')
-                    subject = self.takeCommand().lower()
-                    time.sleep(1)
                     speak("What should I say?")
                     content = self.takeCommand().lower()
                     speak("Please Wait Sir...")
-                    em.sendEmail(subject,content)
+                    em.sendEmail(content)
                     speak("Email has been sent!")
                 except Exception as e:
                     # print(e)
@@ -199,19 +189,20 @@ class MainThread(QThread):
             elif 'set timer' in self.query or 'stopwatch' in self.query:
                 speak("For how many minutes?")
                 timing = self.takeCommand()
-                timing =timing.replace('minutes', '')
-                timing = timing.replace('minute', '')
-                timing = timing.replace('for', '')
-                timing = float(timing)
-                timing = timing * 60
-                speak(f'I will remind you in {timing} seconds')
+                if timing != None or timing != 'none':
+                    timing =timing.replace('minutes', '')
+                    timing = timing.replace('minute', '')
+                    timing = timing.replace('for', '')
+                    timing = float(timing)
+                    timing = timing * 60
+                    speak(f'I will remind you in {timing} seconds')
+                    time.sleep(timing)
+                    speak('Your time has been finished sir')
 
-                time.sleep(timing)
-                speak('Your time has been finished sir')
 
-
-            elif "tell me joke" in self.query :
+            elif "tell me joke" in self.query or "tell joke" in self.query or "tell me  a joke" in self.query or "tell a joke" in self.query:
                 joke = pyjokes.get_joke()
+                # (language='en', category='neutral')    category: str => Choices: 'neutral', 'chuck', 'all', 'twister'
                 print(joke)
                 speak(joke)
             
@@ -221,7 +212,7 @@ class MainThread(QThread):
                 pyautogui.press("tab")            
                 pyautogui.keyUp("alt")            
 
-            elif "tell me news" in self.query or "tell me some news" in self.query or "news" in self.query :
+            elif "tell me news" in self.query or "tell me somenews" in self.query or "news" in self.query :
                 speak("please Wait sir, feteching the latest news.")
                 news.news()
 
@@ -233,14 +224,14 @@ class MainThread(QThread):
                 speak('Sorry but Can you click On EXIT to Stop me.')
 
             # Dangerorus commands 
-            elif "shutdown the system" in self.query:
-                os.system("shutdown /s /t 5")
+            # elif "shutdown the system" in self.query:
+            #     os.system("shutdown /s /t 5")
                 
-            elif "restart the system" in self.query:
-                os.system("shutdown /r /t 5")
+            # elif "restart the system" in self.query:
+            #     os.system("shutdown /r /t 5")
 
-            elif "sleep the system" in self.query:
-                os.system("rundll32.exe powerprof.dll,SetSuspendState 0,1,0")
+            # elif "sleep the system" in self.query:
+            #     os.system("rundll32.exe powerprof.dll,SetSuspendState 0,1,0")
 
             # speak("\nsir, I'm Ready to Next Command ?")
 
@@ -280,11 +271,8 @@ class Main(QMainWindow):
         self.ui.textBrowser_2.setText(label_time)
 
 
-
-
 if __name__=="__main__":
     app = QApplication(sys.argv)
     shadow = Main()
     shadow.show()
     exit(app.exec_())
-    pass

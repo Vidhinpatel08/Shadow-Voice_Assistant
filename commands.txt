@@ -1,0 +1,43 @@
+1  :  wikipedia
+2  :  search
+3  :  open google
+4  :  open youtube
+5  :  open facebook
+6  :  open stack overflow
+7  :  play songs on youtube
+8  :  send message - {'abc':'+91 9998087300','xyz':'+91 9998087300','pqr':'+91 6355747481'}
+9  :  play music
+10  :  covid
+11  :  cpu
+12  :  screenshot
+13  :  password
+14  :  read
+15  :  what is time / current time
+16  :  what is date / what is the date / date
+17  :  open code
+18  :  close vscode
+19  :  open notepad
+20  :  close notepad
+21  :  open command prompt
+22  :  ip address
+23  :  email to send /  email send a email
+24  :  set alarm / set an alarm / set the alarm
+25  :  set timer / stopwatch
+26  :  tell me joke / tell joke / tell me a joke / tell a joke
+27  :  switch the window
+28  :  tell me news / tell me somenews / news
+29  :  hi / hello / hey / who are you / your intro
+30  :  bye / no thanks / offline
+31  :  shutdown the system
+32  :  restart the system
+33  :  sleep the system
+
+=====================================================
+emill
+cpu
+
+
+
+
+
+

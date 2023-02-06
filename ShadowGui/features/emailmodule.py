@@ -5,15 +5,13 @@ with open(r'ShadowGui\features\email.txt') as f :
     password=f.readline()
     client_email=f.readline()
 
-
-
-def sendEmail(subject,content):
+def sendEmail(content):
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
         server.starttls()
         server.login(user_email, password)
-        server.sendmail(user_email, client_email,content,mail_options=subject)
+        server.sendmail(user_email, client_email,content)
         server.close()
     except Exception as e:
         print(e)
