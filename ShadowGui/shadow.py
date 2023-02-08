@@ -81,16 +81,16 @@ class MainThread(QThread):
                         print(results)
                         speak(results)
 
-                    if 'search' in query:
-                        speak('Searching on google...')
-                        query = query.replace("search", "")
-                        webbrowser.open(f"https://www.google.com/search?q={query}")
-
                     elif 'open google' in query:
                         print('Sir, what should i search in Google')
                         speak('Sir, what should i search in Google')
                         cm = self.takeCommand()
                         webbrowser.open(f"{cm}")
+
+                    if 'search on google' in query or 'search it' in query or 'google' in query:
+                        speak('Searching on google...')
+                        query = query.replace('search on google', "").replace('search it','').replace('google ','')
+                        webbrowser.open(f"https://www.google.com/search?q={query}")
 
                     elif 'open youtube' in query:
                         print('\nWhat should I Search on Youtube ?',end='')
@@ -154,6 +154,9 @@ class MainThread(QThread):
                         strTime = datetime.datetime.now().strftime("%H:%M:%S")    
                         speak(f"Sir, the time is {strTime}")
         
+                    elif "instagram profile" in query or "profile on instagram" in query:
+                        f.InstaDownload()
+                    
                     elif 'current date' in query or 'what is date' in query or 'what is the date' in query:
                         year = datetime.datetime.now().year
                         month = datetime.datetime.now().month
@@ -183,6 +186,9 @@ class MainThread(QThread):
                         ip = get("https://api.ipify.org").text
                         print(f"your ip address is {ip}")
                         speak(f"your ip address is {ip}")
+    
+                    elif "where i am" in query or "where we are" in query or "my location" in query: 
+                        f.Mylocation()
 
                     elif 'email to' in query or 'send email' in query or 'send a email' in query:
                         em.mailQuery(query)

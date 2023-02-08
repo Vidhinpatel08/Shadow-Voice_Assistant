@@ -2,19 +2,43 @@ import datetime
 import random
 import string
 import time as tt
-
+import webbrowser
+import instadownloader
+import time
 import clipboard
 import psutil
 import pyautogui  # pip install pyautogui
 import requests
 import speedtest
+import os
 from bs4 import BeautifulSoup
+import speech_recognition as sr #pip install speechRecognition
 
 
 def speak(str):
     from win32com.client import Dispatch
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
+
+
+def takeCommand():
+    """takeing Command as query for the Microphone and return string as output"""
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("\nListening...")
+        r.pause_threshold = 2 # time of stop between your speech to exection 
+        r.energy_threshold = 200  # increment if backgroud voice high.. & decrement if voice not peroper listening.. 
+        audio = r.listen(source)
+
+    try :
+        query = r.recognize_google(audio,language= 'en-in')
+
+    except Exception as e :
+        print('Say that again Please...')
+        return 'None'
+    
+    return query.lower().strip()
+
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -114,6 +138,40 @@ def internetspeed():
     speak(f'sir we have {dl} bit per second downloading speed and {up} bit per second uploading speed')
 
 
+def Mylocation():
+    speak("wait sir, let me check") 
+    try:
+        ipAdd = requests.get('https://api.ipify.org').text
+        # print("Ip Address", ipAdd)
+        url = 'https://get.geojs.io/v1/ip/geo/'+ipAdd+'.json'
+        geo_requests = requests.get(url)
+        geo_data = geo_requests.json()
+        # print(geo_data)
+        city =  geo_data['city']
+        state = geo_data['region']
+        country=  geo_data['country'] 
+        print(f"sir i am not sure, but i think we are in {city} city of {state} in {country} ")
+        speak(f"sir i am not sure, but i think we are in {city} city of {state} in {country} ")
+    except Exception as e:
+        speak("Sorry sir, Due to network issue i am not able to find where we are.")
+        pass
+
+def InstaDownload():
+    speak("sir please enter the user name correctly.")
+    name = input("Enter username here:")
+    webbrowser.open(f"www.instagram.com/{name}")
+    speak(f"Sir here is the profile of the user {name}")
+    time.sleep(5)
+    speak("sir would you like to download profile picture of this account.")
+    condition = takeCommand().lower()
+    if "yes" in condition:
+        mod = instadownloader.instaloader.Instaloader() #pip install instadownloader
+        os.chdir(r"ShadowGui\features\secure\InstaImage\\")
+        mod.download_profile(name, profile_pic_only=True)
+        speak("i am done sir, profile picture is saved in our main folder. now i am ready for next command")
+    else:
+        pass
+
 if __name__ == "__main__":
-    internetspeed()
+    InstaDownload()
     pass

@@ -29,6 +29,8 @@ def takeCommand():
         return 'None'
     
     return query.lower().strip()
+
+    
 myContact = {}
 with open(r'ShadowGui\features\secure\myContact.csv', 'r') as f:
     reader = csv.reader(f)
