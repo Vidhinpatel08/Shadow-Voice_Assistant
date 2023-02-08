@@ -1,21 +1,21 @@
-import pyttsx3 #pip install pyttsx3
-import speech_recognition as sr #pip install speechRecognition
-import datetime
-import time
-import wikipedia #pip install wikipedia
-import webbrowser
 import os
-import pywhatkit as kit # pip install pywhatkit 
-import pyjokes  # pip install pyjokes 
-from requests import get
 import sys
-import pyautogui # pip install pyautogui
+import time
+import datetime
+import webbrowser
+import pyjokes 
+import pyautogui 
+# import pyttsx3 
+import speech_recognition as sr #pip install speechRecognition
+import wikipedia #pip install wikipedia
+import pywhatkit as kit # pip install pywhatkit 
 import features.emailmodule as em
 import features.whatsapp as wp
 import features.mynewsapi as news
 import features.musiclist as musiclist
 import features.feature as f
 import features.alarmtime as alarm
+from requests import get
 from shadowUi import Ui_ShadowUI
 
 from PyQt5 import QtWidgets,QtCore, QtGui
@@ -23,8 +23,6 @@ from PyQt5.QtCore import QTimer, QTime , QDate, Qt
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-# from PyQt5.QtGui import QMovie
-# from PyQt5.uic import loadUiType
 
 def speak(str):
     from win32com.client import Dispatch
@@ -69,171 +67,176 @@ class MainThread(QThread):
         return query.lower().strip()
 
     def TaskExecution(self):
-        # f.wishMe()
         while True:
-            self.query = self.takeCommand()
-            if 'wikipedia' in self.query:
-                speak('Searching Wikipedia...')
-                self.query = self.query.replace("wikipedia", "")
-                results = wikipedia.summary(self.query, sentences=2)
-                speak("According to Wikipedia")
-                print(results)
-                speak(results)
+            permission = self.takeCommand()
+            if 'wake up' in permission :
+                f.wishMe()
+                while True:
+                    query = self.takeCommand()
+                    if 'wikipedia' in query:
+                        speak('Searching Wikipedia...')
+                        query = query.replace("wikipedia", "")
+                        results = wikipedia.summary(query, sentences=2)
+                        speak("According to Wikipedia")
+                        print(results)
+                        speak(results)
 
-            if 'search' in self.query:
-                speak('Searching on google...')
-                query = self.query.replace("search", "")
-                webbrowser.open(f"{query}")
+                    if 'search' in query:
+                        speak('Searching on google...')
+                        query = query.replace("search", "")
+                        webbrowser.open(f"https://www.google.com/search?q={query}")
 
-            elif 'open google' in self.query:
-                print('Sir, what should i search in Google')
-                speak('Sir, what should i search in Google')
-                cm = self.takeCommand()
-                webbrowser.open(f"{cm}")
+                    elif 'open google' in query:
+                        print('Sir, what should i search in Google')
+                        speak('Sir, what should i search in Google')
+                        cm = self.takeCommand()
+                        webbrowser.open(f"{cm}")
 
-            elif 'open youtube' in self.query:
-                print('\nWhat should I Search on Youtube ?',end='')
-                speak('What should I Search on Youtube ?')
-                cm = self.takeCommand().lower()
-                kit.playonyt(cm) 
+                    elif 'open youtube' in query:
+                        print('\nWhat should I Search on Youtube ?',end='')
+                        speak('What should I Search on Youtube ?')
+                        cm = self.takeCommand().lower()
+                        kit.playonyt(cm) 
 
-            elif "play songs on youtube" in self.query:
-                speak('Sir, what would you like to listen ?')
-                cm = self.takeCommand().lower()
-                kit.playonyt(cm) 
+                    elif "play songs on youtube" in query:
+                        speak('Sir, what would you like to listen ?')
+                        cm = self.takeCommand().lower()
+                        kit.playonyt(cm) 
 
-            elif "open facebook" in self.query:
-                webbrowser.open("www.facebook.com")
+                    elif "open facebook" in query:
+                        webbrowser.open("www.facebook.com")
 
-            elif 'open stack overflow' in self.query:
-                webbrowser.open("stackoverflow.com")   
+                    elif 'open stack overflow' in query:
+                        webbrowser.open("stackoverflow.com")   
 
-            elif "send message" in self.query or "send a message" in self.query or "send a message on whatsapp" in self.query  or "send message on whatsapp" in self.query:
-                if "to" in self.query or "for" in self.query:
-                    recipient = self.query.split("to", 1)[-1].split("for", 1)[-1].strip()
-                    wp.message(to=recipient)
-                else:
-                    wp.message(to='')
+                    elif "send message" in query or "send a message" in query or "send a message on whatsapp" in query  or "send message on whatsapp" in query or "send whatsapp message" in query:
+                        wp.message(query)
 
+                    elif 'play music' in query:
+                        musiclist.playmusic()
 
-            elif 'play music' in self.query:
-                musiclist.playmusic()
+                    # elif 'covid' in query:
+                        f.covid()
 
-            elif 'covid' in self.query:
-                f.covid()
+                    elif 'cpu' in query:
+                        f.cpu()
 
-            elif 'cpu' in self.query:
-                f.cpu()
+                    elif 'how much power left' in query or 'how much power we have' in query or 'battery' in query:
+                        f.batteryPer()
 
-            elif 'screenshot' in self.query:
-                f.screenshot()
+                    elif 'screenshot' in query:
+                        f.screenshot()
 
-            elif 'password' in self.query:
-                f.passwordgen()
+                    elif 'create password' in query or 'generate password' in query:
+                        f.passwordgen()
 
-            elif 'read' in self.query:
-                f.text2speech()
+                    elif 'read clipboared' in query:
+                        f.text2speech()
 
+                    elif 'current temperature' in query:
+                        if "in" in query:
+                            recipient = query.split("current temperature in")[-1].strip()
+                            f.temperature(at=recipient)
+                        else:
+                            f.temperature()
 
-            elif 'what is time' in self.query or 'current time'in self.query:
-                strTime = datetime.datetime.now().strftime("%H:%M:%S")    
-                speak(f"Sir, the time is {strTime}")
-  
-            elif 'date' in self.query or 'what is date' in self.query or 'what is the date' in self.query:
-                year = datetime.datetime.now().year
-                month = datetime.datetime.now().month
-                date = datetime.datetime.now().day
-                speak(f"the current date is: {date}date,{month}month,{year}year.")
+                    elif 'temperature' in query:
+                        if "in" in query or "at" in query:
+                            recipient = query.split("in")[-1].strip()
+                            f.temperature(at=recipient)
+                        else: 
+                            f.temperature()
+
+                    elif 'internet speed' in query or 'internetspeed' in query :
+                            f.internetspeed()
+
+                    elif 'what is time' in query or 'current time'in query:
+                        strTime = datetime.datetime.now().strftime("%H:%M:%S")    
+                        speak(f"Sir, the time is {strTime}")
+        
+                    elif 'current date' in query or 'what is date' in query or 'what is the date' in query:
+                        year = datetime.datetime.now().year
+                        month = datetime.datetime.now().month
+                        date = datetime.datetime.now().day
+                        speak(f"the current date is: {date}date,{month}month,{year}year.")
+                                
+                    elif 'open code' in query:
+                        codePath = r"C:\Users\vidhi\AppData\Local\Programs\Microsoft VS Code\Code.exe"
+                        os.startfile(codePath)
+
+                    elif 'close vs code' in query or 'close vscode' in query:
+                        speak("Okk sir, cloasing  notepad")
+                        os.system('taskkill /f /im code.exe')
+
+                    elif 'open notepad' in query:
+                        codePath = "C:\\Windows\\System32\\notepad.exe" 
+                        os.startfile(codePath)
+
+                    elif 'close notepad' in query:
+                        speak("Okk sir, cloasing  notepad")
+                        os.system('taskkill /f /im notepad.exe')
+
+                    elif 'open command prompt' in query or 'cmd' in query:
+                        os.system("start cmd")
+
+                    elif 'ip address' in query:
+                        ip = get("https://api.ipify.org").text
+                        print(f"your ip address is {ip}")
+                        speak(f"your ip address is {ip}")
+
+                    elif 'email to' in query or 'send email' in query or 'send a email' in query:
+                        em.mailQuery(query)
+
+                    elif "set alarm" in query or "set an alarm" in query or "set the alarm" in query or "alarm" in query:
+                        speak("Sir now can excess the terminal to set alarm")
+                        alarm.alaramplay()
+                        speak("Okk sir, your alarm command completed now")
+
+                    elif 'set timer' in query or 'stopwatch' in query:
+                        speak("For how many minutes?")
+                        timing = self.takeCommand()
+                        if timing != None or timing != 'none':
+                            timing =timing.replace('minutes', '')
+                            timing = timing.replace('minute', '')
+                            timing = timing.replace('for', '')
+                            timing = float(timing)
+                            timing = timing * 60
+                            speak(f'I will remind you in {timing} seconds')
+                            time.sleep(timing)
+                            speak('Your time has been finished sir')
+
+                    elif "tell me joke" in query or "tell joke" in query or "tell me  a joke" in query or "tell a joke" in query:
+                        joke = pyjokes.get_joke()
+                        # (language='en', category='neutral')    category: str => Choices: 'neutral', 'chuck', 'all', 'twister'
+                        print(joke)
+                        speak(joke)
+                    
+                    elif 'switch the window' in query:
+                        pyautogui.keyDown("alt")  
+                        time.sleep(1)          
+                        pyautogui.press("tab")            
+                        pyautogui.keyUp("alt")            
                         
+                    elif "tell me news" in query or "tell me somenews" in query or "news" in query :
+                        speak("please Wait sir, feteching the latest news.")
+                        news.news()
 
-            elif 'open code' in self.query:
-                codePath = r"C:\Users\vidhi\AppData\Local\Programs\Microsoft VS Code\Code.exe"
-                os.startfile(codePath)
+                    elif 'hi' in query or 'hello' in query or "hey" in query or "who are you" in query or  "your intro" in query:
+                        f.aboutFunction()
 
-            elif 'close vs code' in self.query or 'close vscode' in self.query:
-                speak("Okk sir, cloasing  notepad")
-                os.system('taskkill /f /im code.exe')
+                    elif "sleep shadow" in query or "sleep now" in query or 'you can sleep' in query:
+                        speak('okay sir, I am going to sleep you can call me anytime. ')
+                        break
 
-            elif 'open notepad' in self.query:
-                codePath = "C:\\Windows\\System32\\notepad.exe" 
-                os.startfile(codePath)
+                    elif "goodbye" in query or "good bye" in query  or "bye" in query :
+                        speak('Thanks for useing me sir, have a good day')
+                        speak('Sorry but Can you click on EXIT to Stop me.')
+                        sys.exit()
 
-            elif 'close notepad' in self.query:
-                speak("Okk sir, cloasing  notepad")
-                os.system('taskkill /f /im notepad.exe')
-
-            elif 'open command prompt' in self.query or 'cmd' in self.query:
-                os.system("start cmd")
-
-            elif 'ip address' in self.query:
-                ip = get("https://api.ipify.org").text
-                print(f"your ip address is {ip}")
-                speak(f"your ip address is {ip}")
-
-            elif 'email to' in self.query or 'send email' in self.query or 'send a email' in self.query:
-                try:
-                    speak("What should I say?")
-                    content = self.takeCommand().lower()
-                    speak("Please Wait Sir...")
-                    em.sendEmail(content)
-                    speak("Email has been sent!")
-                except Exception as e:
-                    # print(e)
-                    speak("Sorry my sir  I am not able to send this email")  
-
-            elif "set alarm" in self.query or "set an alarm" in self.query or "set the alarm" in self.query or "alarm" in self.query:
-                speak("Sir now can excess the terminal to set alarm")
-                alarm.alaramplay()
-                speak("Okk sir, your alarm command completed now")
-
-            elif 'set timer' in self.query or 'stopwatch' in self.query:
-                speak("For how many minutes?")
-                timing = self.takeCommand()
-                if timing != None or timing != 'none':
-                    timing =timing.replace('minutes', '')
-                    timing = timing.replace('minute', '')
-                    timing = timing.replace('for', '')
-                    timing = float(timing)
-                    timing = timing * 60
-                    speak(f'I will remind you in {timing} seconds')
-                    time.sleep(timing)
-                    speak('Your time has been finished sir')
-
-
-            elif "tell me joke" in self.query or "tell joke" in self.query or "tell me  a joke" in self.query or "tell a joke" in self.query:
-                joke = pyjokes.get_joke()
-                # (language='en', category='neutral')    category: str => Choices: 'neutral', 'chuck', 'all', 'twister'
-                print(joke)
-                speak(joke)
-            
-            elif 'switch the window' in self.query:
-                pyautogui.keyDown("alt")  
-                time.sleep(1)          
-                pyautogui.press("tab")            
-                pyautogui.keyUp("alt")            
-
-            elif "tell me news" in self.query or "tell me somenews" in self.query or "news" in self.query :
-                speak("please Wait sir, feteching the latest news.")
-                news.news()
-
-            elif 'hi' in self.query or 'hello' in self.query or "hey" in self.query or "who are you" in self.query or  "your intro" in self.query:
-                f.aboutFunction()
-
-            elif "bye" in self.query or "no thanks" in self.query or 'offline' in self.query:
-                speak('thanks for using me sir, have a good day!')
-                speak('Sorry but Can you click On EXIT to Stop me.')
-
-            # Dangerorus commands 
-            # elif "shutdown the system" in self.query:
-            #     os.system("shutdown /s /t 5")
-                
-            # elif "restart the system" in self.query:
-            #     os.system("shutdown /r /t 5")
-
-            # elif "sleep the system" in self.query:
-            #     os.system("rundll32.exe powerprof.dll,SetSuspendState 0,1,0")
-
-            # speak("\nsir, I'm Ready to Next Command ?")
+            elif "goodbye" in permission or "good bye" in permission  or "bye" in permission :
+                speak('Thanks for useing me sir, have a good day')
+                speak('Sorry but Can you click on EXIT to Stop me.')
+                sys.exit()
 
 startExecution = MainThread()
 

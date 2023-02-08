@@ -7,6 +7,8 @@ import clipboard
 import psutil
 import pyautogui  # pip install pyautogui
 import requests
+import speedtest
+from bs4 import BeautifulSoup
 
 
 def speak(str):
@@ -59,6 +61,19 @@ def cpu():
     print(f'battery is at {battery.percent}')
     speak(f'battery is at {battery.percent}')
 
+def batteryPer():
+    battery = psutil.sensors_battery().percent
+    print(f'sir our system have {battery} percent battery')
+    speak(f'sir our system have {battery} percent battery')
+    if battery >=75 :
+        speak('we have enough power to continue our work')
+    elif battery >=40:
+        speak('we should connect our system to charging point to charge battery')
+    elif battery >=15:
+        speak('we don\'t have enough power to work, please connect to charging..')
+    else:
+        speak('we have very low power, please connect to charging the system will shutdown very soon !!')
+
 
 def passwordgen():
     s1 = string.ascii_letters
@@ -74,21 +89,31 @@ def passwordgen():
     random.shuffle(s)
     newpass = ("".join(s[0:passlen]))
     print('Password Is: ',newpass)
+    clipboard.copy(newpass)
     speak(newpass)
 
 def aboutFunction():
     speak("I am Shadow 2.0 An advanced AI model.")
-    speak("I am developed by Vidhin Patel, Jeet Patel and Jeneesh Patel") 
     speak("I am here to assist you to use this app easily")
-    tt.sleep(0.5)
-    speak("In this software, I will be assisting you in few tasks like")
-    speak("doing google search")
-    tt.sleep(0.2)
-    speak("opening any software")
-    tt.sleep(0.2)
-    speak("and a lot more.")
-    tt.sleep(0.5)
+    # speak("I am developed by Vidhin Patel, Jeet Patel and Jeneesh Patel") 
+
+def temperature(at='Visnagar'):
+    search = 'temperature in '+at
+    url = f'https://www.google.com/search?q={search}'
+    r= requests.get(url)
+    data = BeautifulSoup(r.text, "html.parser")
+    temp = data.find("div",class_="BNeawe").text
+    print(f"current {search} is {temp}")
+    speak(f"current {search} is {temp}")
+
+def internetspeed():
+    speak('sir please, Waiting for 1 second I\'m feaching speed.....')
+    st = speedtest.Speedtest()
+    dl, up = st.download(), st.upload()
+    print(f'sir we have {dl} bit per second downloading speed and {up} bit per second uploading speed')
+    speak(f'sir we have {dl} bit per second downloading speed and {up} bit per second uploading speed')
+
 
 if __name__ == "__main__":
-    passwordgen()
+    internetspeed()
     pass
