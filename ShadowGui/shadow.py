@@ -6,6 +6,7 @@ import webbrowser
 import pyjokes 
 import pyautogui 
 # import pyttsx3 
+import operator
 import speech_recognition as sr #pip install speechRecognition
 import wikipedia #pip install wikipedia
 import pywhatkit as kit # pip install pywhatkit 
@@ -67,9 +68,10 @@ class MainThread(QThread):
         return query.lower().strip()
 
     def TaskExecution(self):
+        speak('Sir please say wake up to continue')
         while True:
             permission = self.takeCommand()
-            if 'wake up' in permission :
+            if 'wake up' in permission or 'are you there' in permission or 'hello' in permission :
                 f.wishMe()
                 while True:
                     query = self.takeCommand()
@@ -182,6 +184,9 @@ class MainThread(QThread):
                     elif 'open command prompt' in query or 'cmd' in query:
                         os.system("start cmd")
 
+                    elif 'read pdf' in query:
+                        f.pdf_reader()
+
                     elif 'ip address' in query:
                         ip = get("https://api.ipify.org").text
                         print(f"your ip address is {ip}")
@@ -223,9 +228,36 @@ class MainThread(QThread):
                         pyautogui.press("tab")            
                         pyautogui.keyUp("alt")            
                         
+                    elif "do some calculation" in query or "can you calculate" in query:
+                        r = sr.Recognizer()
+                        with sr.Microphone() as source:
+                            speak("Say what you want to calculate, example: 3 plus 3") 
+                            print("listening.....") 
+                            r.adjust_for_ambient_noise (source)
+                            audio = r.listen(source) 
+                        my_string=r.recognize_google(audio) 
+                        print(my_string) 
+                        def get_operator_fn(op):
+                            return {
+                                '+': operator.add, #plus
+                                '-' : operator.sub, #minus
+                                'x': operator.mul, #multiplied by
+                                '/' :operator.__truediv__  #divided
+                            }[op]
+                        def eval_binary_expr (op1, oper, op2): # 5 plus 8 
+                            op1, op2 = int(op1), int(op2)
+                            return get_operator_fn(oper)(op1, op2)
+
+                        message = f"your result is {eval_binary_expr(*(my_string.split()))}"
+                        print(message)
+                        speak(message)
+                    
                     elif "tell me news" in query or "tell me somenews" in query or "news" in query :
                         speak("please Wait sir, feteching the latest news.")
                         news.news()
+
+                    elif 'thanks' in query or 'thank you' in query :
+                        speak("It's my pleasure sir")
 
                     elif 'hi' in query or 'hello' in query or "hey" in query or "who are you" in query or  "your intro" in query:
                         f.aboutFunction()
@@ -237,7 +269,7 @@ class MainThread(QThread):
                     elif "goodbye" in query or "good bye" in query  or "bye" in query :
                         speak('Thanks for useing me sir, have a good day')
                         speak('Sorry but Can you click on EXIT to Stop me.')
-                        sys.exit()
+                        quit()
 
             elif "goodbye" in permission or "good bye" in permission  or "bye" in permission :
                 speak('Thanks for useing me sir, have a good day')
@@ -254,7 +286,6 @@ class Main(QMainWindow):
         self.ui.setupUi(self)
         self.ui.pushButton.clicked.connect(self.starttask)        
         self.ui.pushButton_2.clicked.connect(self.close)  
-        speak(f'sir, Please click on RUN button to start me & click On EXIT to Stop me.')
 
     def starttask(self):
         self.ui.movie = QtGui.QMovie(r"ShadowGui\images\Main.gif")      # path of main bg_image (Labal-1)

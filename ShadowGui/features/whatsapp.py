@@ -11,7 +11,6 @@ def speak(str):
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
 
-
 def takeCommand():
     """takeing Command as query for the Microphone and return string as output"""
     r = sr.Recognizer()
@@ -29,7 +28,6 @@ def takeCommand():
         return 'None'
     
     return query.lower().strip()
-
     
 myContact = {}
 with open(r'ShadowGui\features\secure\myContact.csv', 'r') as f:
@@ -106,6 +104,3 @@ def sending(sendNumber, sendMessage)  :
 
 if __name__ =='__main__':
     message('send whatsapp message')
-
-
-               

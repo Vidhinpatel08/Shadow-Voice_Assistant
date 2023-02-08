@@ -10,6 +10,7 @@ import psutil
 import pyautogui  # pip install pyautogui
 import requests
 import speedtest
+import PyPDF2
 import os
 from bs4 import BeautifulSoup
 import speech_recognition as sr #pip install speechRecognition
@@ -19,7 +20,6 @@ def speak(str):
     from win32com.client import Dispatch
     speak = Dispatch("SAPI.SpVoice")
     speak.Speak(str)
-
 
 def takeCommand():
     """takeing Command as query for the Microphone and return string as output"""
@@ -38,7 +38,6 @@ def takeCommand():
         return 'None'
     
     return query.lower().strip()
-
 
 def wishMe():
     hour = int(datetime.datetime.now().hour)
@@ -76,7 +75,6 @@ def screenshot():
     img = pyautogui.screenshot(name_img)
     img.show()
 
-
 def cpu():
     usage = str(psutil.cpu_percent())
     print(f'CPU USage is at {usage}')
@@ -97,7 +95,6 @@ def batteryPer():
         speak('we don\'t have enough power to work, please connect to charging..')
     else:
         speak('we have very low power, please connect to charging the system will shutdown very soon !!')
-
 
 def passwordgen():
     s1 = string.ascii_letters
@@ -137,7 +134,6 @@ def internetspeed():
     print(f'sir we have {dl} bit per second downloading speed and {up} bit per second uploading speed')
     speak(f'sir we have {dl} bit per second downloading speed and {up} bit per second uploading speed')
 
-
 def Mylocation():
     speak("wait sir, let me check") 
     try:
@@ -172,6 +168,35 @@ def InstaDownload():
     else:
         pass
 
+def pdf_reader():
+    try:
+        speak("sir please enter path of pdf")
+        # pdfName = "D:/College/Python%20-%205/E-book/LEARN%20PYTHON%20THE%20HARD%20WAY.pdf".replace('%20',' ')
+        pdfName = input("path of pdf : ").replace('%20',' ')
+        book = open(pdfName, 'rb') 
+        pdfReader = PyPDF2.PdfFileReader(book) 
+        pages = pdfReader.numPages
+        print(f"Total numbers of pages in this book {pages} ")
+        speak(f"Total numbers of pages in this book {pages} ")
+        speak("sir please enter the page number i have to read")
+        pg = int(input("Please enter the page number: "))-1
+        # try:
+        #     pg = int(takeCommand().lower())-1
+        # except Exception as  e :
+        #     speak('sorry sir, but Input geting as sentence Please enter the page number')
+        #     pg = int(input("Please enter the page number: "))-1
+        try:
+            page = pdfReader.getPage(pg)
+            text = page.extractText()
+            speak(text)
+        except Exception as  e :
+            speak('sorry sir, pagenumber not match')
+
+    except Exception as e :
+        print('Error :' , e)
+        speak(f'something wrong, try again')
+        pdf_reader()
+
 if __name__ == "__main__":
-    InstaDownload()
+    pdf_reader()
     pass
