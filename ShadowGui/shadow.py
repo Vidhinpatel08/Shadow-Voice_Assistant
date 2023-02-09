@@ -85,8 +85,11 @@ class MainThread(QThread):
                     elif "send message" in query or "send a message" in query or "whatsapp message" in query or "send a message on whatsapp" in query  or "send message on whatsapp" in query or "send whatsapp message" in query:
                         wp.message(query)
 
-                    elif 'play music' in query:
-                        musiclist.playmusic()
+                    elif 'play music' in query or 'music of' in query or "play " in query:
+                        musiclist.playmusic(query)
+
+                    elif 'stop music' in query or 'top music' in query or 'close music' in query or "pause" in query:
+                        musiclist.stopMusic()
 
                     elif 'cpu' in query:
                         f.cpu()
