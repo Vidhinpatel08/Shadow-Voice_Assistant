@@ -1,25 +1,9 @@
 import requests
 import json
-import pyttsx3
-# import feature as f
-
-# engine = pyttsx3.init('sapi5')
-# voices = engine.getProperty('voices')
-# engine.setProperty('voice',voices[0].id)
-
-# def speak(audio):
-#     """Take String as input and say on audio with help of speakers.."""
-#     # print(f'Computer Said : {audio}')
-#     engine.say(audio)
-#     engine.runAndWait()
-
-def speak(str):
-    from win32com.client import Dispatch
-    speak = Dispatch("SAPI.SpVoice")
-    speak.Speak(str)
-    
+import features.TTS as TTS
+  
 def news():
-    speak("News for today.. Lets begin")
+    TTS.speak("News for today.. Lets begin")
 
     # today_url = f'https://newsapi.org/v2/everything?q=apple&from={year}-{month}-{day}&to={year}-{month}-{day}&sortBy=popularity&apiKey=c16715a456f64335a3a7c582cbe2a202'
     # the-times-of-india = "https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=c16715a456f64335a3a7c582cbe2a202"
@@ -28,12 +12,11 @@ def news():
     news = requests.get(in_url).text
     news_dict = json.loads(news)
     arts = news_dict['articles']
-    speak(f'We have Total {len(arts)} news.')
+    TTS.speak_Print(f'We have Total {len(arts)} news.')
     for i,article in enumerate(arts):
         arg = f"News {i+1} is {article['title']}"
-        print(arg)
-        speak(arg)
+        TTS.speak_Print(arg)
 
 if __name__ == "__main__":
     # news()
-    speak("hello")
+    pass

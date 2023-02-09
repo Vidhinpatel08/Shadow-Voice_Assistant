@@ -7,7 +7,6 @@ import time
 
 def playmusic():
     music_dir = 'D:\\Audio' # music directry path 
-    # songs = os.listdir(music_dir)
     os.startfile(os.path.join(music_dir,'AI_alarm05.mp3'))
 	
 def alaramplay():

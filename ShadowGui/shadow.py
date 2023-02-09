@@ -5,9 +5,6 @@ import datetime
 import webbrowser
 import pyjokes 
 import pyautogui 
-# import pyttsx3 
-import operator
-import speech_recognition as sr #pip install speechRecognition
 import wikipedia #pip install wikipedia
 import pywhatkit as kit # pip install pywhatkit 
 import features.emailmodule as em
@@ -18,27 +15,13 @@ import features.feature as f
 import features.alarmtime as alarm
 from requests import get
 from shadowUi import Ui_ShadowUI
+import features.TTS as TTS
 
 from PyQt5 import QtWidgets,QtCore, QtGui
 from PyQt5.QtCore import QTimer, QTime , QDate, Qt 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-
-def speak(str):
-    from win32com.client import Dispatch
-    speak = Dispatch("SAPI.SpVoice")
-    speak.Speak(str)
-
-# engine = pyttsx3.init('sapi5')
-# voices = engine.getProperty('voices')
-# engine.setProperty('voice',voices[0].id)
-
-# def speak(audio):
-#     """Take String as input and say on audio with help of speakers.."""
-#     # print(f'Computer Said : {audio}')
-#     engine.say(audio)
-#     engine.runAndWait()
 
 class MainThread(QThread):
     def __init__(self):
@@ -47,62 +30,50 @@ class MainThread(QThread):
     def run(self):
         self.TaskExecution()
 
-    def takeCommand(self):
-        """takeing Command as query for the Microphone and return string as output"""
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            print("\nListening...")
-            r.pause_threshold = 2 # time of stop between your speech to exection 
-            r.energy_threshold = 200  # increment if backgroud voice high.. & decrement if voice not peroper listening.. 
-            audio = r.listen(source)
-
-        try :
-            print("Recognizing...")
-            query = r.recognize_google(audio,language= 'en-in')
-            print(f'User Said : {query}')
-
-        except Exception as e :
-            print('Say that again Please...')
-            return 'None'
-        
-        return query.lower().strip()
-
     def TaskExecution(self):
-        speak('Sir please say wake up to continue')
+        os.system('cls')
+        TTS.speak_Print('Sir please say "wake up" to continue')
         while True:
-            permission = self.takeCommand()
+            permission = TTS.takeCommand()
             if 'wake up' in permission or 'are you there' in permission or 'hello' in permission :
+                print()
                 f.wishMe()
                 while True:
-                    query = self.takeCommand()
-                    if 'wikipedia' in query:
-                        speak('Searching Wikipedia...')
+                    query = TTS.takeCommand()
+                    if "how are you" in query:
+                        f.command_whatsup()
+
+                    elif "fine" in query:
+                        TTS.speak_Print("Glad to hear that sir!!")
+
+                    elif "m good" in query:
+                        TTS.speak_Print("Glad to hear that sir!!")
+
+                    elif 'wikipedia' in query:
+                        TTS.speak('Searching Wikipedia...')
                         query = query.replace("wikipedia", "")
                         results = wikipedia.summary(query, sentences=2)
-                        speak("According to Wikipedia")
-                        print(results)
-                        speak(results)
+                        TTS.speak("According to Wikipedia")
+                        TTS.speak_Print(results)
 
                     elif 'open google' in query:
-                        print('Sir, what should i search in Google')
-                        speak('Sir, what should i search in Google')
-                        cm = self.takeCommand()
+                        TTS.speak_Print('Sir, what should i search in Google')
+                        cm = TTS.takeCommand()
                         webbrowser.open(f"{cm}")
 
                     if 'search on google' in query or 'search it' in query or 'google' in query:
-                        speak('Searching on google...')
+                        TTS.speak('Searching on google...')
                         query = query.replace('search on google', "").replace('search it','').replace('google ','')
                         webbrowser.open(f"https://www.google.com/search?q={query}")
 
                     elif 'open youtube' in query:
-                        print('\nWhat should I Search on Youtube ?',end='')
-                        speak('What should I Search on Youtube ?')
-                        cm = self.takeCommand().lower()
+                        TTS.speak_Print('What should I Search on Youtube ?')
+                        cm = TTS.takeCommand().lower()
                         kit.playonyt(cm) 
 
                     elif "play songs on youtube" in query:
-                        speak('Sir, what would you like to listen ?')
-                        cm = self.takeCommand().lower()
+                        TTS.speak_Print('Sir, what would you like to listen ?')
+                        cm = TTS.takeCommand().lower()
                         kit.playonyt(cm) 
 
                     elif "open facebook" in query:
@@ -111,14 +82,11 @@ class MainThread(QThread):
                     elif 'open stack overflow' in query:
                         webbrowser.open("stackoverflow.com")   
 
-                    elif "send message" in query or "send a message" in query or "send a message on whatsapp" in query  or "send message on whatsapp" in query or "send whatsapp message" in query:
+                    elif "send message" in query or "send a message" in query or "whatsapp message" in query or "send a message on whatsapp" in query  or "send message on whatsapp" in query or "send whatsapp message" in query:
                         wp.message(query)
 
                     elif 'play music' in query:
                         musiclist.playmusic()
-
-                    # elif 'covid' in query:
-                        f.covid()
 
                     elif 'cpu' in query:
                         f.cpu()
@@ -137,14 +105,14 @@ class MainThread(QThread):
 
                     elif 'current temperature' in query:
                         if "in" in query:
-                            recipient = query.split("current temperature in")[-1].strip()
+                            recipient = query.split("current temperature in")[-1].strip().replace("weather","").replace("temperature",'').replace("temperature",'')
                             f.temperature(at=recipient)
                         else:
                             f.temperature()
 
-                    elif 'temperature' in query:
+                    elif 'temperature' in query or "weather" in query:
                         if "in" in query or "at" in query:
-                            recipient = query.split("in")[-1].strip()
+                            recipient = query.split("in")[-1].strip().replace("weather","").replace("temperature",'').replace("temperature",'')
                             f.temperature(at=recipient)
                         else: 
                             f.temperature()
@@ -152,9 +120,30 @@ class MainThread(QThread):
                     elif 'internet speed' in query or 'internetspeed' in query :
                             f.internetspeed()
 
+                    elif "add reminder" in query or "adding reminder" in query or "add a note" in query or "add note" in query or "adding note" in query:
+                        if 'reminder' in query:
+                            TTS.speak_Print("What should I adding in reminder")
+                        else :
+                            TTS.speak_Print("What should I add note")
+                        f.appendnote()
+                        
+                    elif "remember that" in query or "write a note" in query or "write note" in query or "right note" in query or "right a note" in query:
+                        if 'remember' in query:
+                            TTS.speak_Print("What should I remember")
+                        else :
+                            TTS.speak_Print("What should I write")
+                        f.writenote()
+                        
+                    elif "do you remember anything" in query or "show a note" in query or "show note" in query:
+                        if 'remember' in query:
+                            TTS.speak_Print("You told me to remember that")
+                        else :
+                            TTS.speak_Print("showing our Note")
+                        f.shownote()
+
                     elif 'what is time' in query or 'current time'in query:
                         strTime = datetime.datetime.now().strftime("%H:%M:%S")    
-                        speak(f"Sir, the time is {strTime}")
+                        TTS.speak_Print(f"Sir, the time is {strTime}")
         
                     elif "instagram profile" in query or "profile on instagram" in query:
                         f.InstaDownload()
@@ -163,14 +152,14 @@ class MainThread(QThread):
                         year = datetime.datetime.now().year
                         month = datetime.datetime.now().month
                         date = datetime.datetime.now().day
-                        speak(f"the current date is: {date}date,{month}month,{year}year.")
+                        TTS.speak_Print(f"the current date is: {date}date,{month}month,{year}year.")
                                 
                     elif 'open code' in query:
                         codePath = r"C:\Users\vidhi\AppData\Local\Programs\Microsoft VS Code\Code.exe"
                         os.startfile(codePath)
 
                     elif 'close vs code' in query or 'close vscode' in query:
-                        speak("Okk sir, cloasing  notepad")
+                        TTS.speak_Print("Okk sir, cloasing  notepad")
                         os.system('taskkill /f /im code.exe')
 
                     elif 'open notepad' in query:
@@ -178,7 +167,7 @@ class MainThread(QThread):
                         os.startfile(codePath)
 
                     elif 'close notepad' in query:
-                        speak("Okk sir, cloasing  notepad")
+                        TTS.speak_Print("Okk sir, cloasing  notepad")
                         os.system('taskkill /f /im notepad.exe')
 
                     elif 'open command prompt' in query or 'cmd' in query:
@@ -189,38 +178,36 @@ class MainThread(QThread):
 
                     elif 'ip address' in query:
                         ip = get("https://api.ipify.org").text
-                        print(f"your ip address is {ip}")
-                        speak(f"your ip address is {ip}")
+                        TTS.speak_Print(f"your ip address is {ip}")
     
                     elif "where i am" in query or "where we are" in query or "my location" in query: 
                         f.Mylocation()
 
-                    elif 'email to' in query or 'send email' in query or 'send a email' in query:
+                    elif 'email to' in query or 'mail to' in query or 'send a mail' in query or 'send a email' in query or 'send email' in query or 'send  mail' in query :
                         em.mailQuery(query)
 
                     elif "set alarm" in query or "set an alarm" in query or "set the alarm" in query or "alarm" in query:
-                        speak("Sir now can excess the terminal to set alarm")
+                        TTS.speak("Sir now can excess the terminal to set alarm")
                         alarm.alaramplay()
-                        speak("Okk sir, your alarm command completed now")
+                        TTS.speak_Print("Okk sir, your alarm command completed now")
 
                     elif 'set timer' in query or 'stopwatch' in query:
-                        speak("For how many minutes?")
-                        timing = self.takeCommand()
+                        TTS.speak_Print("For how many minutes?")
+                        timing = TTS.takeCommand()
                         if timing != None or timing != 'none':
                             timing =timing.replace('minutes', '')
                             timing = timing.replace('minute', '')
                             timing = timing.replace('for', '')
                             timing = float(timing)
                             timing = timing * 60
-                            speak(f'I will remind you in {timing} seconds')
+                            TTS.speak_Print(f'I will remind you in {timing} seconds')
                             time.sleep(timing)
-                            speak('Your time has been finished sir')
+                            TTS.speak_Print('Your time has been finished sir')
 
                     elif "tell me joke" in query or "tell joke" in query or "tell me  a joke" in query or "tell a joke" in query:
                         joke = pyjokes.get_joke()
                         # (language='en', category='neutral')    category: str => Choices: 'neutral', 'chuck', 'all', 'twister'
-                        print(joke)
-                        speak(joke)
+                        TTS.speak_Print(joke)
                     
                     elif 'switch the window' in query:
                         pyautogui.keyDown("alt")  
@@ -228,52 +215,31 @@ class MainThread(QThread):
                         pyautogui.press("tab")            
                         pyautogui.keyUp("alt")            
                         
-                    elif "do some calculation" in query or "can you calculate" in query:
-                        r = sr.Recognizer()
-                        with sr.Microphone() as source:
-                            speak("Say what you want to calculate, example: 3 plus 3") 
-                            print("listening.....") 
-                            r.adjust_for_ambient_noise (source)
-                            audio = r.listen(source) 
-                        my_string=r.recognize_google(audio) 
-                        print(my_string) 
-                        def get_operator_fn(op):
-                            return {
-                                '+': operator.add, #plus
-                                '-' : operator.sub, #minus
-                                'x': operator.mul, #multiplied by
-                                '/' :operator.__truediv__  #divided
-                            }[op]
-                        def eval_binary_expr (op1, oper, op2): # 5 plus 8 
-                            op1, op2 = int(op1), int(op2)
-                            return get_operator_fn(oper)(op1, op2)
-
-                        message = f"your result is {eval_binary_expr(*(my_string.split()))}"
-                        print(message)
-                        speak(message)
+                    elif "do some calculation" in query or "can you calculate" in query or "calculate the" in query:
+                       f.calculate()
                     
                     elif "tell me news" in query or "tell me somenews" in query or "news" in query :
-                        speak("please Wait sir, feteching the latest news.")
+                        TTS.speak_Print("please Wait sir, fetching the latest news.")
                         news.news()
-
-                    elif 'thanks' in query or 'thank you' in query :
-                        speak("It's my pleasure sir")
 
                     elif 'hi' in query or 'hello' in query or "hey" in query or "who are you" in query or  "your intro" in query:
                         f.aboutFunction()
 
-                    elif "sleep shadow" in query or "sleep now" in query or 'you can sleep' in query:
-                        speak('okay sir, I am going to sleep you can call me anytime. ')
+                    elif "sleep shadow" in query or "sleep now" in query or 'you can sleep' in query or "nothing" in query or "abort" in query or "stop" in query:
+                        TTS.speak_Print('okay sir, I am going to sleep you can call me anytime. ')
                         break
 
+                    elif 'thanks' in query or 'thank you' in query :
+                        TTS.speak("It's my pleasure sir")
+
                     elif "goodbye" in query or "good bye" in query  or "bye" in query :
-                        speak('Thanks for useing me sir, have a good day')
-                        speak('Sorry but Can you click on EXIT to Stop me.')
+                        TTS.speak_Print('Thanks for using me sir, have a good day')
+                        TTS.speak('Sorry but Can you click on EXIT to Stop me.')
                         quit()
 
-            elif "goodbye" in permission or "good bye" in permission  or "bye" in permission :
-                speak('Thanks for useing me sir, have a good day')
-                speak('Sorry but Can you click on EXIT to Stop me.')
+            elif "goodbye" in permission or "good bye" in permission  or "bye" in permission or "nothing" in permission or "abort" in permission or "stop" in permission:
+                TTS.speak_Print('Thanks for useing me sir, have a good day')
+                TTS.speak('Sorry but Can you click on EXIT to Stop me.')
                 sys.exit()
 
 startExecution = MainThread()
@@ -309,7 +275,6 @@ class Main(QMainWindow):
         label_date = current_date.toString(Qt.ISODate)
         self.ui.textBrowser.setText(label_date)
         self.ui.textBrowser_2.setText(label_time)
-
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
