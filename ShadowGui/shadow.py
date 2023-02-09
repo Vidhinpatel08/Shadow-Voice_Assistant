@@ -221,9 +221,8 @@ class MainThread(QThread):
                     elif "do some calculation" in query or "can you calculate" in query or "calculate the" in query:
                        f.calculate()
                     
-                    elif "tell me news" in query or "tell me somenews" in query or "news" in query :
-                        TTS.speak_Print("please Wait sir, fetching the latest news.")
-                        news.news()
+                    elif "tell me news" in query or "tell me somenews" in query or "read news" in query or "play news" in query or "news of" in query or "news" in query :
+                        news.play_news(query)
 
                     elif 'hi' in query or 'hello' in query or "hey" in query or "who are you" in query or  "your intro" in query:
                         f.aboutFunction()

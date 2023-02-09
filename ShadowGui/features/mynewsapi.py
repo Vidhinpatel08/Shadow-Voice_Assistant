@@ -1,22 +1,71 @@
 import requests
 import json
+import time
 import features.TTS as TTS
-  
-def news():
-    TTS.speak("News for today.. Lets begin")
 
-    # today_url = f'https://newsapi.org/v2/everything?q=apple&from={year}-{month}-{day}&to={year}-{month}-{day}&sortBy=popularity&apiKey=c16715a456f64335a3a7c582cbe2a202'
-    # the-times-of-india = "https://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=c16715a456f64335a3a7c582cbe2a202"
-    in_url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=c16715a456f64335a3a7c582cbe2a202"
+API_KEY = ""
 
-    news = requests.get(in_url).text
-    news_dict = json.loads(news)
-    arts = news_dict['articles']
-    TTS.speak_Print(f'We have Total {len(arts)} news.')
-    for i,article in enumerate(arts):
-        arg = f"News {i+1} is {article['title']}"
-        TTS.speak_Print(arg)
+
+def get_news_by_date(startDate,endDate):
+        url = f"https://newsapi.org/v2/top-headlines?q=all&from={startDate}&to={endDate}&sortBy=popularity&country=in&apiKey={API_KEY}"
+        response = requests.get(url)
+        news_data = json.loads(response.text)
+        articles = news_data["articles"]
+        print(f'We have Total {len(articles)} news.')
+        
+        for article in articles:
+            for i,article in enumerate(articles):
+                arg = f"News {i+1} is {article['title']}"
+                TTS.speak_Print(arg)
+        TTS.speak('News Completed, Now I am ready for next command')
+
+def get_news_by_category(category):
+        url = f"https://newsapi.org/v2/top-headlines?country=in&category={category}&apiKey={API_KEY}"
+        response = requests.get(url)
+        news_data = json.loads(response.text)
+        articles = news_data["articles"]
+        print(f'We have Total {len(articles)} news.')
+        
+        for article in articles:
+            for i,article in enumerate(articles):
+                arg = f"News {i+1} is {article['title']}"
+                TTS.speak_Print(arg)
+        TTS.speak('News Completed, Now I am ready for next command')
+
+            
+def play_news(query):
+    categories= ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
+    category = None
+    for word in query.split(' '):
+        if word in categories:
+            category = word
+            break
+        elif word in ['today','todays','day','month','any']:
+            if word.startswith('tod'):
+                seconds = time.time()
+                result = time.gmtime(seconds)
+                year,month,day = result.tm_year,result.tm_mon,result.tm_mday
+                startDate,endDate =f'{year}-{month}-{day}', f'{year}-{month}-{day}'
+            else:
+                startDate,endDate ='2023-02-10', '2023-02-10' # logic
+            get_news_by_date(startDate,endDate)
+            return
+
+
+    if category is not None and category is not ' ':
+        get_news_by_category(category)
+        return
+
+    # If the user's query does not specify a valid category,
+    TTS.speak_Print(f"\nPlease specify a category {categories}")
+    category = TTS.takeCommand_template()
+    if category in categories:
+        get_news_by_category(category)
+    else:
+        TTS.speak_Print("\nInvalid category, See General News\n")
+        get_news_by_category(category= 'general')
+    return
+        
 
 if __name__ == "__main__":
-    # news()
-    pass
+    play_news("play news of adani")
