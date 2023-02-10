@@ -126,7 +126,7 @@ def pdf_reader():
     try:
         TTS.speak_Print("sir please enter path of pdf")
         # pdfName = "D:/College/Python%20-%205/E-book/LEARN%20PYTHON%20THE%20HARD%20WAY.pdf".replace('%20',' ')
-        pdfName = input("path of pdf : ").replace('%20',' ')
+        pdfName = input("path of pdf : ").replace('%20',' ').replace('\\','/').replace('"','').replace("'","")
         book = open(pdfName, 'rb') 
         pdfReader = PyPDF2.PdfFileReader(book) 
         pages = pdfReader.numPages

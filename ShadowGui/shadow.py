@@ -12,6 +12,7 @@ import features.whatsapp as wp
 import features.mynewsapi as news
 import features.musiclist as musiclist
 import features.feature as f
+# import features.chatWith as chat
 import features.alarmtime as alarm
 from requests import get
 from shadowUi import Ui_ShadowUI
@@ -123,14 +124,14 @@ class MainThread(QThread):
                     elif 'internet speed' in query or 'internetspeed' in query :
                             f.internetspeed()
 
-                    elif "add reminder" in query or "adding reminder" in query or "add a note" in query or "add note" in query or "adding note" in query:
+                    elif "add reminder" in query or "adding reminder" in query or "add a note" in query or "add note" in query or "adding a note" in query:
                         if 'reminder' in query:
                             TTS.speak_Print("What should I adding in reminder")
                         else :
                             TTS.speak_Print("What should I add note")
                         f.appendnote()
                         
-                    elif "remember that" in query or "write a note" in query or "write note" in query or "right note" in query or "right a note" in query:
+                    elif "remember that" in query or "write a note" in query or "write note" in query or "right note" in query or "right a note" in query or "new note" in query:
                         if 'remember' in query:
                             TTS.speak_Print("What should I remember")
                         else :
@@ -176,7 +177,7 @@ class MainThread(QThread):
                     elif 'open command prompt' in query or 'cmd' in query:
                         os.system("start cmd")
 
-                    elif 'read pdf' in query:
+                    elif 'read my pdf' in query or 'this pdf' in query or 'read pdf' in query:
                         f.pdf_reader()
 
                     elif 'ip address' in query:
@@ -234,12 +235,18 @@ class MainThread(QThread):
                     elif 'thanks' in query or 'thank you' in query :
                         TTS.speak("It's my pleasure sir")
 
-                    elif "goodbye" in query or "good bye" in query  or "bye" in query :
+                    elif "goodbye" in query or "good bye" in query  or "bye" in query  or "quit" in query :
                         TTS.speak_Print('Thanks for using me sir, have a good day')
                         TTS.speak('Sorry but Can you click on EXIT to Stop me.')
                         quit()
+                    
+                    # elif 'None' == query:
+                    #     continue
+                    
+                    # else :
+                    #     chat.chat_with_AI(query)
 
-            elif "goodbye" in permission or "good bye" in permission  or "bye" in permission or "nothing" in permission or "abort" in permission or "stop" in permission:
+            elif "goodbye" in permission or "good bye" in permission  or "bye" in permission or "nothing" in permission or "abort" in permission or "stop" in permission or "quit" in permission:
                 TTS.speak_Print('Thanks for useing me sir, have a good day')
                 TTS.speak('Sorry but Can you click on EXIT to Stop me.')
                 sys.exit()
@@ -283,3 +290,5 @@ if __name__=="__main__":
     shadow = Main()
     shadow.show()
     exit(app.exec_())
+
+
