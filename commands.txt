@@ -1,3 +1,24 @@
+wakeup
+how are you, fine, good, thanks, thank you
+search on google
+send message, send a message, whatsapp message, send a message on whatsapp, send message on whatsapp, send whatsapp message
+how much power left, how much power we have, battery
+current temperature, temperature, weather
+internet speed, internetspeed
+add reminder, adding reminder, add a note, add note, adding note
+remember that, write a note, write note, right note, right a note
+do you remember anything, show a note, show note
+instagram profile, profile on instagram
+read pdf
+email to, mail to, send a mail, send a email, send email, send  mail
+where i am, where we are, my location
+do some calculation, can you calculate, calculate the
+sleep shadow, sleep now, you can sleep, nothing, abort, stop
+goodbye, good bye, bye
+
+
+================================================================================
+
 1  :  wikipedia
 2  :  search
 3  :  open google
@@ -31,13 +52,4 @@
 31  :  shutdown the system
 32  :  restart the system
 33  :  sleep the system
-
-=====================================================
-emill
-cpu
-
-
-
-
-
 
