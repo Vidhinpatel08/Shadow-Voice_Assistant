@@ -3,7 +3,7 @@ import features.TTS as TTS
 
 
 # Initialize the OpenAI API client
-openai.api_key = "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"
+# openai.api_key = ""
 
 # Define a function to generate a response from the GPT-3 model
 def generate_response(prompt):
