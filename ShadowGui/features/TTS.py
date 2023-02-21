@@ -5,6 +5,7 @@ import speech_recognition as sr #pip install speechRecognition
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice',voices[0].id)
+# engine.setProperty('rate',200) # set voice speed of Assistant
 
 def speak(audio):
     """Take String as input and say on audio with help of speakers.."""
