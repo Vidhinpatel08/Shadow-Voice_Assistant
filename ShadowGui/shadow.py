@@ -240,11 +240,11 @@ class MainThread(QThread):
                         TTS.speak('Sorry but Can you click on EXIT to Stop me.')
                         quit()
                     
-                    elif 'None' == query:
-                        continue
+                    # elif 'None' == query:
+                    #     continue
                     
-                    else :
-                        chat.chat_with_AI(query)
+                    # else :
+                    #     chat.chat_with_AI(query)
 
             elif "goodbye" in permission or "good bye" in permission  or "bye" in permission or "nothing" in permission or "abort" in permission or "stop" in permission or "quit" in permission:
                 TTS.speak_Print('Thanks for useing me sir, have a good day')

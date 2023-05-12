@@ -72,8 +72,10 @@ def play_news(query):
     else:
         TTS.speak_Print("\nInvalid category, See General News\n")
         get_news_by_category(category= 'general')
-    return
+        return
+    
         
 
 if __name__ == "__main__":
     play_news("play news of today")
+    print('Done')
