@@ -6,9 +6,10 @@ import time
 
 
 def playmusic():
-    music_dir = 'D:\\Audio' # music directry path 
-    os.startfile(os.path.join(music_dir,'AI_alarm05.mp3'))
-	
+    # music_dir = 'D:\\Audio' # music directry path 
+    # os.startfile(os.path.join(music_dir,'AI_alarm05.mp3'))
+    os.startfile(r"D:\Files\Shadow-Voice_Assistant\Shadow-Voice_Assistant\ShadowGui\features\AI_alarm05.mp3") # add your requirements
+
 def alaramplay():
 
 	def check_alarm_input(alarm_time):

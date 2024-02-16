@@ -24,6 +24,60 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+
+# Commands Lists
+
+permission_phrases = ["wake up", "are you there", "hello", "hey assistant", "hey there", "open up", "are you here", "hi"]
+how_are_you_phrases = ["how are you", "fine", "m good", "how's it going", "how you doing", "how r u", "hows you"]
+wikipedia_phrases = ["wikipedia", "look up on wikipedia", "search in wikipedia", "what is", "tell me about", "wikipidia", "wikipedea", "wiki pedia"]
+google_phrases = ["open google", "search on google", "search it", "google", "look up on google", "google search", "goggle", "googal"]
+youtube_phrases = ["open youtube", "play songs on youtube", "youtube", "search on youtube", "youtube search", "you tube", "utube"]
+facebook_phrases = ["open facebook", "facebook", "visit my facebook", "check facebook", "face book", "fecebook", "facebok"]
+stackoverflow_phrases = ["open stack overflow", "stackoverflow", "look up on stack overflow", "check stack overflow", "stack overflow", "stackoverflow.com"]
+whatsapp_phrases = ["send message", "send a message", "whatsapp message", "send a message on whatsapp", "send message on whatsapp", "send whatsapp message", "send text", "send a text", "text on whatsapp", "whats app", "what's up", "watsapp", "whatsap"]
+music_phrases = ["play music", "music of", "play ", "listen to music", "song", "music player", "music playlist", "play song", "music", "musics", "play musics"]
+stop_music_phrases = ["stop music", "top music", "close music", "pause", "pause music", "stop song", "shut off music", "stopp music", "paus music"]
+cpu_phrases = ["cpu", "processor", "central processing unit", "computer performance", "central processor unit", "CPU"]
+battery_phrases = ["how much power left", "how much power we have", "battery", "battery status", "battery level", "how much charge left", "battery remaining", "battry", "battray"]
+screenshot_phrases = ["screenshot", "capture screen", "take a screenshot", "snapshot", "grab screen", "screen shot", "screnshot", "screeshot"]
+password_phrases = ["create password", "generate password", "password manager", "password generator", "password security", "generate passward", "password creation"]
+clipboard_phrases = ["read clipboard", "clipboard", "copy and paste", "clipboard manager", "clip board", "clipbord"]
+temperature_phrases = ["current temperature", "temperature", "weather", "climate", "weather forecast", "tempature", "wheather"]
+internet_speed_phrases = ["internet speed", "internetspeed", "network speed", "internet connection", "bandwidth", "net speed", "internet velocity"]
+reminder_phrases = ["add reminder", "adding reminder", "add a note", "add note", "adding a note", "set reminder", "remind me", "remember this", "set a reminder", "remember to", "remind me to"]
+remember_phrases = ["remember that", "write a note", "write note", "right note", "right a note", "new note", "memorize", "store this", "remeber that", "wright note", "memorise"]
+show_note_phrases = ["do you remember anything", "show a note", "show note", "recall note", "retrieve note", "view note", "display note", "sho note"]
+time_phrases = ["what is time", "current time", "time", "time now", "time of day", "clock", "whats the time", "current time please"]
+instagram_phrases = ["instagram profile", "profile on instagram", "instagram", "check instagram", "instagram account", "insta", "instagrm", "insta gram"]
+date_phrases = ["current date", "what is date", "what is the date", "today's date", "date today", "date", "todays date", "whats the date"]
+code_phrases = ["open code", "close vs code", "close vscode", "open notepad", "close notepad", "open command prompt", "cmd", "open editor", "start coding", "open coding"]
+pdf_phrases = ["read my pdf", "this pdf", "read pdf", "pdf reader", "open pdf", "pdf file", "pdf", "open pdf file"]
+ip_phrases = ["ip address", "what is my ip", "find ip", "get ip", "my ip", "ip adress", "whats my ip", "whats my ip adress"]
+location_phrases = ["where i am", "where we are", "my location", "locate me", "current location", "find me", "wheres my location"]
+email_phrases = ["email to", "mail to", "send a mail", "send a email", "send email", "send mail", "compose email", "write email", "email", "e-mail", "emails"]
+alarm_phrases = ["set alarm", "set an alarm", "set the alarm", "alarm", "wake up call", "alarm clock", "set an alaram", "alaram"]
+timer_phrases = ["set timer", "stopwatch", "countdown", "timer", "timing", "stopwatch app", "stop watch", "timeer"]
+joke_phrases = ["tell me joke", "tell joke", "tell me a joke", "tell a joke", "joke", "funny joke", "humor", "joks"]
+switch_window_phrases = ["switch the window", "change window", "window switcher", "toggle window", "alt tab", "switch windows", "swich window"]
+calculation_phrases = ["do some calculation", "can you calculate", "calculate the", "math", "calculate this", "math problem", "calculations", "calculator", "calculate"]
+news_phrases = ["tell me news", "tell me some news", "read news", "play news", "news of", "news", "latest news", "news update", "whats the news", "news please", "get news"]
+greeting_phrases = ["hi", "hello", "hey", "who are you", "your intro", "greetings", "nice to meet you", "halo", "heya"]
+sleep_phrases = ["sleep shadow", "sleep now", "you can sleep", "nothing", "abort", "stop", "quit", "shut down", "turn off", "go to sleep", "sleepy", "got sleep", "gotosleep"]
+thanks_phrases = ["thanks", "thank you", "thank you so much", "thanks a lot", "appreciate it", "thank", "thnx", "thnk you"]
+goodbye_phrases = ["goodbye", "good bye", "bye", "quit", "see you later", "farewell", "good by", "bye bye", "byee"]
+
+# Combine all command phrases into a single list
+all_phrases = [permission_phrases, how_are_you_phrases, wikipedia_phrases, google_phrases, youtube_phrases,
+               facebook_phrases, stackoverflow_phrases, whatsapp_phrases, music_phrases, stop_music_phrases,
+               cpu_phrases, battery_phrases, screenshot_phrases, password_phrases, clipboard_phrases,
+               temperature_phrases, internet_speed_phrases, reminder_phrases, remember_phrases, show_note_phrases,
+               time_phrases, instagram_phrases, date_phrases, code_phrases, pdf_phrases, ip_phrases,
+               location_phrases, email_phrases, alarm_phrases, timer_phrases, joke_phrases, switch_window_phrases,
+               calculation_phrases, news_phrases, greeting_phrases, sleep_phrases, thanks_phrases, goodbye_phrases]
+
+# Flatten the list of lists
+all_phrases_flat = [phrase for sublist in all_phrases for phrase in sublist]
+
 class MainThread(QThread):
     def __init__(self):
         super (MainThread,self).__init__()
@@ -34,222 +88,178 @@ class MainThread(QThread):
     def TaskExecution(self):
         os.system('cls')
         TTS.speak_Print('Sir please say "wake up" to continue')
+
+        # If any command not work then check oldwhileloop.txt for reference because it's old version of this
         while True:
+            # Main loop to handle commands
             permission = TTS.takeCommand()
-            if 'wake up' in permission or 'are you there' in permission or 'hello' in permission :
+            if any(phrase in permission for phrase in permission_phrases):
                 print()
                 f.wishMe()
                 while True:
-                    query = TTS.takeCommand()
-                    if "how are you" in query:
-                        f.command_whatsup()
+                    query = TTS.takeCommand().lower()
+                    if any(phrase in query for phrase in all_phrases_flat):
+                        if any(phrase in query for phrase in how_are_you_phrases):
+                            f.command_whatsup()
 
-                    elif "fine" in query:
-                        TTS.speak_Print("Glad to hear that sir!!")
+                        elif any(phrase in query for phrase in wikipedia_phrases):
+                            TTS.speak('Searching Wikipedia...')
+                            query = query.replace("wikipedia", "")
+                            results = wikipedia.summary(query, sentences=2)
+                            TTS.speak("According to Wikipedia")
+                            TTS.speak_Print(results)
 
-                    elif "m good" in query:
-                        TTS.speak_Print("Glad to hear that sir!!")
+                        elif any(phrase in query for phrase in google_phrases):
+                            TTS.speak('Searching on google...')
+                            query = query.replace('search on google', "").replace('search it','').replace('google ','')
+                            webbrowser.open(f"https://www.google.com/search?q={query}")
 
-                    elif 'wikipedia' in query:
-                        TTS.speak('Searching Wikipedia...')
-                        query = query.replace("wikipedia", "")
-                        results = wikipedia.summary(query, sentences=2)
-                        TTS.speak("According to Wikipedia")
-                        TTS.speak_Print(results)
+                        elif any(phrase in query for phrase in youtube_phrases):
+                            TTS.speak_Print('What should I Search on Youtube ?')
+                            cm = TTS.takeCommand().lower()
+                            kit.playonyt(cm)
 
-                    elif 'open google' in query:
-                        TTS.speak_Print('Sir, what should i search in Google')
-                        cm = TTS.takeCommand()
-                        webbrowser.open(f"{cm}")
+                        elif any(phrase in query for phrase in facebook_phrases):
+                            webbrowser.open("www.facebook.com")
 
-                    if 'search on google' in query or 'search it' in query or 'google' in query:
-                        TTS.speak('Searching on google...')
-                        query = query.replace('search on google', "").replace('search it','').replace('google ','')
-                        webbrowser.open(f"https://www.google.com/search?q={query}")
+                        elif any(phrase in query for phrase in stackoverflow_phrases):
+                            webbrowser.open("stackoverflow.com")
 
-                    elif 'open youtube' in query:
-                        TTS.speak_Print('What should I Search on Youtube ?')
-                        cm = TTS.takeCommand().lower()
-                        kit.playonyt(cm) 
+                        elif any(phrase in query for phrase in whatsapp_phrases):
+                            wp.message(query)
 
-                    elif "play songs on youtube" in query:
-                        TTS.speak_Print('Sir, what would you like to listen ?')
-                        cm = TTS.takeCommand().lower()
-                        kit.playonyt(cm) 
+                        elif any(phrase in query for phrase in music_phrases):
+                            musiclist.playmusic(query)
 
-                    elif "open facebook" in query:
-                        webbrowser.open("www.facebook.com")
+                        elif any(phrase in query for phrase in stop_music_phrases):
+                            musiclist.stopMusic()
 
-                    elif 'open stack overflow' in query:
-                        webbrowser.open("stackoverflow.com")   
+                        elif any(phrase in query for phrase in cpu_phrases):
+                            f.cpu()
 
-                    elif "send message" in query or "send a message" in query or "whatsapp message" in query or "send a message on whatsapp" in query  or "send message on whatsapp" in query or "send whatsapp message" in query:
-                        wp.message(query)
+                        elif any(phrase in query for phrase in battery_phrases):
+                            f.batteryPer()
 
-                    elif 'play music' in query or 'music of' in query or "play " in query:
-                        musiclist.playmusic(query)
+                        elif any(phrase in query for phrase in screenshot_phrases):
+                            f.screenshot()
 
-                    elif 'stop music' in query or 'top music' in query or 'close music' in query or "pause" in query:
-                        musiclist.stopMusic()
+                        elif any(phrase in query for phrase in password_phrases):
+                            f.passwordgen()
 
-                    elif 'cpu' in query:
-                        f.cpu()
+                        elif any(phrase in query for phrase in clipboard_phrases):
+                            f.text2speech()
 
-                    elif 'how much power left' in query or 'how much power we have' in query or 'battery' in query:
-                        f.batteryPer()
+                        elif any(phrase in query for phrase in temperature_phrases):
+                            if "in" in query or "at" in query:
+                                recipient = query.split("current temperature in")[-1].strip().replace("weather","").replace("temperature",'').replace("temperature",'')
+                                f.temperature(at=recipient)
+                            else:
+                                f.temperature()
 
-                    elif 'screenshot' in query:
-                        f.screenshot()
-
-                    elif 'create password' in query or 'generate password' in query:
-                        f.passwordgen()
-
-                    elif 'read clipboared' in query:
-                        f.text2speech()
-
-                    elif 'current temperature' in query:
-                        if "in" in query:
-                            recipient = query.split("current temperature in")[-1].strip().replace("weather","").replace("temperature",'').replace("temperature",'')
-                            f.temperature(at=recipient)
-                        else:
-                            f.temperature()
-
-                    elif 'temperature' in query or "weather" in query:
-                        if "in" in query or "at" in query:
-                            recipient = query.split("in")[-1].strip().replace("weather","").replace("temperature",'').replace("temperature",'')
-                            f.temperature(at=recipient)
-                        else: 
-                            f.temperature()
-
-                    elif 'internet speed' in query or 'internetspeed' in query :
+                        elif any(phrase in query for phrase in internet_speed_phrases):
                             f.internetspeed()
 
-                    elif "add reminder" in query or "adding reminder" in query or "add a note" in query or "add note" in query or "adding a note" in query:
-                        if 'reminder' in query:
-                            TTS.speak_Print("What should I adding in reminder")
-                        else :
-                            TTS.speak_Print("What should I add note")
-                        f.appendnote()
-                        
-                    elif "remember that" in query or "write a note" in query or "write note" in query or "right note" in query or "right a note" in query or "new note" in query:
-                        if 'remember' in query:
-                            TTS.speak_Print("What should I remember")
-                        else :
-                            TTS.speak_Print("What should I write")
-                        f.writenote()
-                        
-                    elif "do you remember anything" in query or "show a note" in query or "show note" in query:
-                        if 'remember' in query:
-                            TTS.speak_Print("You told me to remember that")
-                        else :
-                            TTS.speak_Print("showing our Note")
-                        f.shownote()
+                        elif any(phrase in query for phrase in reminder_phrases):
+                            if 'reminder' in query:
+                                TTS.speak_Print("What should I adding in reminder")
+                            else :
+                                TTS.speak_Print("What should I add note")
+                            f.appendnote()
 
-                    elif 'what is time' in query or 'current time'in query:
-                        strTime = datetime.datetime.now().strftime("%H:%M:%S")    
-                        TTS.speak_Print(f"Sir, the time is {strTime}")
-        
-                    elif "instagram profile" in query or "profile on instagram" in query:
-                        f.InstaDownload()
-                    
-                    elif 'current date' in query or 'what is date' in query or 'what is the date' in query:
-                        year = datetime.datetime.now().year
-                        month = datetime.datetime.now().month
-                        date = datetime.datetime.now().day
-                        TTS.speak_Print(f"the current date is: {date}date,{month}month,{year}year.")
-                                
-                    elif 'open code' in query:
-                        codePath = r"C:\Users\vidhi\AppData\Local\Programs\Microsoft VS Code\Code.exe"
-                        os.startfile(codePath)
+                        elif any(phrase in query for phrase in remember_phrases):
+                            if 'remember' in query:
+                                TTS.speak_Print("What should I remember")
+                            else :
+                                TTS.speak_Print("What should I write")
+                            f.writenote()
 
-                    elif 'close vs code' in query or 'close vscode' in query:
-                        TTS.speak_Print("Okk sir, cloasing  notepad")
-                        os.system('taskkill /f /im code.exe')
+                        elif any(phrase in query for phrase in show_note_phrases):
+                            if 'remember' in query:
+                                TTS.speak_Print("You told me to remember that")
+                            else :
+                                TTS.speak_Print("showing our Note")
+                            f.shownote()
 
-                    elif 'open notepad' in query:
-                        codePath = "C:\\Windows\\System32\\notepad.exe" 
-                        os.startfile(codePath)
+                        elif any(phrase in query for phrase in time_phrases):
+                            strTime = datetime.datetime.now().strftime("%H:%M:%S")
+                            TTS.speak_Print(f"Sir, the time is {strTime}")
 
-                    elif 'close notepad' in query:
-                        TTS.speak_Print("Okk sir, cloasing  notepad")
-                        os.system('taskkill /f /im notepad.exe')
+                        elif any(phrase in query for phrase in instagram_phrases):
+                            f.InstaDownload()
 
-                    elif 'open command prompt' in query or 'cmd' in query:
-                        os.system("start cmd")
+                        elif any(phrase in query for phrase in date_phrases):
+                            year = datetime.datetime.now().year
+                            month = datetime.datetime.now().month
+                            date = datetime.datetime.now().day
+                            TTS.speak_Print(f"the current date is: {date}date,{month}month,{year}year.")
 
-                    elif 'read my pdf' in query or 'this pdf' in query or 'read pdf' in query:
-                        f.pdf_reader()
+                        elif any(phrase in query for phrase in code_phrases):
+                            codePath = r"C:\Users\vidhi\AppData\Local\Programs\Microsoft VS Code\Code.exe"
+                            os.startfile(codePath)
 
-                    elif 'ip address' in query:
-                        ip = get("https://api.ipify.org").text
-                        TTS.speak_Print(f"your ip address is {ip}")
-    
-                    elif "where i am" in query or "where we are" in query or "my location" in query: 
-                        f.Mylocation()
+                        elif any(phrase in query for phrase in pdf_phrases):
+                            f.pdf_reader()
 
-                    elif 'email to' in query or 'mail to' in query or 'send a mail' in query or 'send a email' in query or 'send email' in query or 'send  mail' in query :
-                        em.mailQuery(query)
+                        elif any(phrase in query for phrase in ip_phrases):
+                            ip = get("https://api.ipify.org").text
+                            TTS.speak_Print(f"your ip address is {ip}")
 
-                    elif "set alarm" in query or "set an alarm" in query or "set the alarm" in query or "alarm" in query:
-                        TTS.speak("Sir now can excess the terminal to set alarm")
-                        alarm.alaramplay()
-                        TTS.speak_Print("Okk sir, your alarm command completed now")
+                        elif any(phrase in query for phrase in location_phrases):
+                            f.Mylocation()
 
-                    elif 'set timer' in query or 'stopwatch' in query:
-                        TTS.speak_Print("For how many minutes?")
-                        timing = TTS.takeCommand()
-                        if timing != None or timing != 'none':
-                            timing =timing.replace('minutes', '')
-                            timing = timing.replace('minute', '')
-                            timing = timing.replace('for', '')
-                            timing = float(timing)
-                            timing = timing * 60
-                            TTS.speak_Print(f'I will remind you in {timing} seconds')
-                            time.sleep(timing)
-                            TTS.speak_Print('Your time has been finished sir')
+                        elif any(phrase in query for phrase in email_phrases):
+                            em.mailQuery(query)
 
-                    elif "tell me joke" in query or "tell joke" in query or "tell me  a joke" in query or "tell a joke" in query:
-                        joke = pyjokes.get_joke()
-                        # (language='en', category='neutral')    category: str => Choices: 'neutral', 'chuck', 'all', 'twister'
-                        TTS.speak_Print(joke)
-                    
-                    elif 'switch the window' in query:
-                        pyautogui.keyDown("alt")  
-                        time.sleep(1)          
-                        pyautogui.press("tab")            
-                        pyautogui.keyUp("alt")            
-                        
-                    elif "do some calculation" in query or "can you calculate" in query or "calculate the" in query:
-                       f.calculate()
-                    
-                    elif "tell me news" in query or "tell me somenews" in query or "read news" in query or "play news" in query or "news of" in query or "news" in query :
-                        news.play_news(query)
+                        elif any(phrase in query for phrase in alarm_phrases):
+                            TTS.speak("Sir now can excess the terminal to set alarm")
+                            alarm.alaramplay()
+                            TTS.speak_Print("Okk sir, your alarm command completed now")
 
-                    elif 'hi' in query or 'hello' in query or "hey" in query or "who are you" in query or  "your intro" in query:
-                        f.aboutFunction()
+                        elif any(phrase in query for phrase in timer_phrases):
+                            TTS.speak_Print("For how many minutes?")
+                            timing = TTS.takeCommand()
+                            if timing != None or timing != 'none':
+                                timing = timing.replace('minutes', '')
+                                timing = timing.replace('minute', '')
+                                timing = timing.replace('for', '')
+                                timing = float(timing)
+                                timing = timing * 60
+                                TTS.speak_Print(f'I will remind you in {timing} seconds')
+                                time.sleep(timing)
+                                TTS.speak_Print('Your time has been finished sir')
 
-                    elif "sleep shadow" in query or "sleep now" in query or 'you can sleep' in query or "nothing" in query or "abort" in query or "stop" in query:
-                        TTS.speak_Print('okay sir, I am going to sleep you can call me anytime. ')
-                        break
+                        elif any(phrase in query for phrase in joke_phrases):
+                            joke = pyjokes.get_joke()
+                            TTS.speak_Print(joke)
 
-                    elif 'thanks' in query or 'thank you' in query :
-                        TTS.speak("It's my pleasure sir")
+                        elif any(phrase in query for phrase in switch_window_phrases):
+                            pyautogui.keyDown("alt")
+                            time.sleep(1)
+                            pyautogui.press("tab")
+                            pyautogui.keyUp("alt")
 
-                    elif "goodbye" in query or "good bye" in query  or "bye" in query  or "quit" in query :
-                        TTS.speak_Print('Thanks for using me sir, have a good day')
-                        TTS.speak('Sorry but Can you click on EXIT to Stop me.')
-                        quit()
-                    
-                    # elif 'None' == query:
-                    #     continue
-                    
-                    # else :
+                        elif any(phrase in query for phrase in calculation_phrases):
+                            f.calculate()
+
+                        elif any(phrase in query for phrase in news_phrases):
+                            news.play_news(query)
+
+                        elif any(phrase in query for phrase in greeting_phrases):
+                            f.aboutFunction()
+
+                        elif any(phrase in query for phrase in sleep_phrases):
+                            TTS.speak_Print('okay sir, I am going to sleep you can call me anytime.')
+                            break
+
+                    # else:
                     #     chat.chat_with_AI(query)
 
-            elif "goodbye" in permission or "good bye" in permission  or "bye" in permission or "nothing" in permission or "abort" in permission or "stop" in permission or "quit" in permission:
-                TTS.speak_Print('Thanks for useing me sir, have a good day')
+            elif any(phrase in permission for phrase in goodbye_phrases):
+                TTS.speak_Print('Thanks for using me sir, have a good day')
                 TTS.speak('Sorry but Can you click on EXIT to Stop me.')
                 sys.exit()
+
+# If any command not work then check oldwhileloop.txt for reference because it's old version of this
 
 startExecution = MainThread()
 

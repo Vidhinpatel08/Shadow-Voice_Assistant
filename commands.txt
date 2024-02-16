@@ -1,24 +1,3 @@
-wakeup
-how are you, fine, good, thanks, thank you
-search on google
-send message, send a message, whatsapp message, send a message on whatsapp, send message on whatsapp, send whatsapp message
-how much power left, how much power we have, battery
-current temperature, temperature, weather
-internet speed, internetspeed
-add reminder, adding reminder, add a note, add note, adding note
-remember that, write a note, write note, right note, right a note
-do you remember anything, show a note, show note
-instagram profile, profile on instagram
-read pdf
-email to, mail to, send a mail, send a email, send email, send  mail
-where i am, where we are, my location
-do some calculation, can you calculate, calculate the
-sleep shadow, sleep now, you can sleep, nothing, abort, stop
-goodbye, good bye, bye
-
-
-================================================================================
-
 1  :  wikipedia
 2  :  search
 3  :  open google
@@ -26,8 +5,8 @@ goodbye, good bye, bye
 5  :  open facebook
 6  :  open stack overflow
 7  :  play songs on youtube
-8  :  send message - {'abc':'+91 9998087300','xyz':'+91 9998087300','pqr':'+91 6355747481'}
-9  :  play music
+8  :  send message - {'abc':'+91 999****300','xyz':'+91 999****300','pqr':'+91 63******81'} [NOTE : NEED LOGED IN WEB WHATSAPP]
+9  :  play music [SET MUSIC LIBRARY AND CREAT FOLDER BY CATEGORIES.]
 10  :  covid
 11  :  cpu
 12  :  screenshot
@@ -41,15 +20,57 @@ goodbye, good bye, bye
 20  :  close notepad
 21  :  open command prompt
 22  :  ip address
-23  :  email to send /  email send a email
+23  :  email to send /  email send a email [NEED TO SET PASSWORD AND EMAIL IN SECURE FOLDER]
 24  :  set alarm / set an alarm / set the alarm
 25  :  set timer / stopwatch
 26  :  tell me joke / tell joke / tell me a joke / tell a joke
 27  :  switch the window
-28  :  tell me news / tell me somenews / news
+28  :  tell me news / tell me somenews / news [NEED TO SET NEWS API]
 29  :  hi / hello / hey / who are you / your intro
 30  :  bye / no thanks / offline
 31  :  shutdown the system
 32  :  restart the system
 33  :  sleep the system
+
+==============================================================================
+
+
+1. **wake up**: Activate the assistant.
+2. **are you there**: Check if the assistant is active.
+3. **hello / hey assistant / hey there / open up / are you here / hi**: Greet the assistant.
+4. **how are you / fine / m good / how's it going / how you doing / how r u / hows you**: Respond to inquiries about well-being.
+5. **wikipedia / look up on wikipedia / search in wikipedia / what is / tell me about / wikipidia / wikipedea / wiki pedia**: Search information on Wikipedia.
+6. **open google / look up on google / google search / goggle / googal**: Perform a search using Google.
+7. **open youtube / search on youtube / youtube search / you tube / utube**: Search for videos on YouTube.
+8. **open facebook / visit my facebook / check facebook / face book / fecebook / facebok**: Open or check Facebook.
+9. **open stack overflow / look up on stack overflow / check stack overflow / stackoverflow.com**: Search for solutions on Stack Overflow.
+10. **send message / send a message / whatsapp message / send a message on whatsapp / send message on whatsapp / send whatsapp message / send text / send a text / text on whatsapp / whats app / what's up / watsapp / whatsap**: Send a text message via WhatsApp.
+11. **play music / music of / play / listen to music / song / music player / music playlist / play song / music / musics / play musics**: Play music from the music library.
+12. **stop music / pause music / stop song / shut off music / stopp music / paus music**: Pause or stop playing music.
+13. **cpu / processor / central processing unit / computer performance / central processor unit**: Get information about the CPU.
+14. **how much power left / how much power we have / battery / battery status / battery level / how much charge left / battery remaining / battry / battray**: Check the status of the battery.
+15. **screenshot / capture screen / take a screenshot / snapshot / grab screen / screen shot / screnshot / screeshot**: Capture a screenshot.
+16. **create password / generate password / password manager / password generator / password security / generate passward / password creation**: Manage or generate passwords.
+17. **read clipboard / clipboard / copy and paste / clipboard manager / clip board / clipbord**: Perform copy and paste operations or manage the clipboard.
+18. **current temperature / temperature / weather / climate / weather forecast / tempature / wheather**: Check the current temperature and weather conditions.
+19. **internet speed / internetspeed / network speed / internet connection / bandwidth / net speed / internet velocity**: Check the speed of the internet connection.
+20. **add reminder / adding reminder / add a note / add note / adding a note / set reminder / remind me / remember this / set a reminder / remember to / remind me to**: Set reminders or notes.
+21. **remember that / write a note / write note / right note / right a note / new note / memorize / store this / remeber that / wright note / memorise**: Save or recall notes.
+22. **do you remember anything / show a note / show note / recall note / retrieve note / view note / display note / sho note**: Retrieve and display saved notes.
+23. **what is time / current time / time / time now / time of day / clock / whats the time / current time please**: Check the current time.
+24. **instagram profile / profile on instagram / instagram / check instagram / instagram account / insta / instagrm / insta gram**: Access Instagram profiles or content.
+25. **current date / what is date / what is the date / today's date / date today / date / todays date / whats the date**: Check the current date.
+26. **open code / close vs code / close vscode / open notepad / close notepad / open command prompt / cmd / open editor / start coding / open coding**: Open or close code editors or command prompts.
+27. **read my pdf / this pdf / read pdf / pdf reader / open pdf / pdf file / pdf / open pdf file**: Read PDF files.
+28. **ip address / what is my ip / find ip / get ip / my ip / ip adress / whats my ip / whats my ip adress**: Check the IP address.
+29. **where i am / where we are / my location / locate me / current location / find me / wheres my location**: Determine the current location.
+30. **email to / mail to / send a mail / send a email / send email / send mail / compose email / write email / email / e-mail / emails**: Compose and send emails.
+31. **set alarm / set an alarm / set the alarm / alarm / wake up call / alarm clock / set an alaram / alaram**: Set alarms.
+32. **set timer / stopwatch / countdown / timer / timing / stopwatch app / stop watch / timeer**: Set timers or use a stopwatch.
+33. **tell me joke / tell joke / tell me a joke / tell a joke / joke / funny joke / humor / joks**: Tell jokes or provide humor.
+34. **switch the window / change window / window switcher / toggle window / alt tab / switch windows / swich window**: Switch between open windows.
+35. **do some calculation / can you calculate / calculate the / math / calculate this / math problem / calculations / calculator / calculate**: Perform calculations or use a calculator.
+36. **tell me news / tell me some news / read news / play news / news of / news / latest news / news update / whats the news / news please / get news**: Read or play the latest news.
+37. **hi / hello / hey / who are you / your intro / greetings / nice to meet you / halo / heya**: Greet the assistant or inquire about its identity.
+38. **bye / no thanks / offline / shutdown the system / restart the system / sleep the system**: Farewell or initiate system shutdown, restart, or sleep.
 

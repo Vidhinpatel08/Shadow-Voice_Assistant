@@ -4,7 +4,7 @@ import time
 import features.TTS as TTS
 import difflib
 
-API_KEY = "16692ccc63604ab7a9c1a40386302c61"
+API_KEY = "abea9e451b5c436195dad057bcafef0b" # {if you want to pass by secure folder then it good}
 
 
 def is_related(word, categories):
@@ -69,10 +69,10 @@ def play_news(query):
             get_news_by_category(category)
         elif is_related(category, Newscategories):
             get_news_by_category(category)
-    else:
-        TTS.speak_Print("\nInvalid category, See General News\n")
-        get_news_by_category(category= 'general')
-        return
+        else:
+            TTS.speak_Print("\nInvalid category, See General News\n")
+            get_news_by_category(category= 'general')
+            return
     
         
 

@@ -98,7 +98,8 @@ def sendEmail(recipient_email, message):
             user_email=f.readline()
             password=f.readline()
         
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+        # server = smtplib.SMTP('smtp.gmail.com', 587) # if you use Gmail id
+        server = smtplib.SMTP('smtp.mailosaur.net', 587) # if you use testing id which is already availble in secure folder
         server.ehlo()
         server.starttls()
         server.login(user_email, password)
