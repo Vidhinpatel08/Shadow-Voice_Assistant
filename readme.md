@@ -88,7 +88,7 @@ Contributions to Voice Assistance are welcome! If you'd like to contribute, plea
 
 ## Support
 
-For support or assistance with Voice Assistance, please contact [support@example.com](mailto:support@example.com).
+For support or assistance with Voice Assistance, please contact [vidhin1208@gmail.com](mailto:vidhin1208@gmail.com).
 
 ## License
 
